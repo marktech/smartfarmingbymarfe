@@ -3,31 +3,6 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.parent {
-  position: relative;
-  top: 0;
-  left: 0;
-}
-.image1 {
-  position: relative;
-  top: 0;
-  left: 0;
-  border: 1px green solid;
-}
-.image2 {
-  position: relative;
-  top: 400px;
-  left: 75px;
-  width: 100px;
-  height:50px;
-  border: 1px blue solid;
-}
 * {
   box-sizing: border-box;
 }
@@ -104,8 +79,11 @@ html {
 }
 
 /* For mobile phones: */
-[class*="col-"] {
-  width: 100%;
+@media only screen and (max-width: 600px) {
+	[class*="col-"] {
+	  width: 100%;
+	}
+	.img-s-1{width: 75%;height:75%;}
 }
 
 @media only screen and (min-width: 600px) {
@@ -144,12 +122,11 @@ html {
 
 <body>
 	<div class="header">
-		<img class="" src="smart_agri.jpg">
 		<div class="center-text">
+			<img class="img-s-1" src="smart_agri.jpg">
 			<h1>Smart Farming By Marfe</h1>
 		</div>
-	</div>
-	<div class="row">
+	</div>	<div class="row">
 	<div class="col-3 col-s-3 menu">
 		<ul>
 			<form action="">
