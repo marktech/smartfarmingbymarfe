@@ -161,6 +161,11 @@ html {
 	</div>
 	<div class="row">		
 		<div class="col-6 col-s-12 menu">
+			<button class="button button3" onclick="test_growlight()">Test Grow Light</button>
+		</div>
+	</div>
+	<div class="row">		
+		<div class="col-6 col-s-12 menu">
 			<ul>
 			  <li><a href="dashboard.html">Configurations</li>
 			  <li><a href="index.html">Back</li>
@@ -168,15 +173,22 @@ html {
 		</div>
 
 	</div>
-	<div class="row">		
-		<div class="col-6 col-s-12 menu">
-			<button class="button button1" onclick="test_growlight()">Test Grow Light</button>
-		</div>
-
-	</div>
 <script>
+var gwl = 0; 
 function test_growlight() {
-  document.getElementById("demo").innerHTML = "Hello World";
+	$.get('https://api.thingspeak.com/channels/1618074/fields/1.json?results=1',function(gwl){
+		
+	});
+	if(gwl == 1)
+	{
+	$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field5=0',function(response){
+	});
+	}
+	else
+	{
+	$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field5=1',function(response){
+	});
+	}
 }
 </script>
 </body>
