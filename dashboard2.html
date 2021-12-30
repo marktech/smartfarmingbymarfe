@@ -182,16 +182,15 @@ function test_growlight() {
 		gwl = data.feeds[0].field7;
 		if(gwl == 1)
 		{
-		$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field7=0',function(response){
-		});
+			$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field7=0',function(response){
+			});
 		}
 		else
 		{
-		$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field7=1',function(response){
-		});
+			$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field7=1',function(response){
+			});
 		}
 	});
-	
 }
 </script>
 </body>
