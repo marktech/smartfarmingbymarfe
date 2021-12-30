@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.4.2.min.js"></script>
 <style>
 * {
   box-sizing: border-box;
@@ -178,7 +178,7 @@ html {
 var gwl = 0; 
 function test_growlight() {
 	$.get('https://api.thingspeak.com/channels/1618074/fields/1.json?results=1',function(data){
-		
+		console.log(data);
 	});
 	if(gwl == 1)
 	{
