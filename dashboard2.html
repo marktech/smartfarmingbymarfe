@@ -177,19 +177,20 @@ html {
 <script>
 var gwl = 0; 
 function test_growlight() {
-	$.get('https://api.thingspeak.com/channels/1618074/fields/1.json?results=1',function(data){
-		console.log(data);
+	$.get('https://api.thingspeak.com/channels/1618074/fields/7.json?results=3',function(data){
+		console.log(data.feeds[0].field7);
+		if(gwl == 1)
+		{
+		$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field5=0',function(response){
+		});
+		}
+		else
+		{
+		$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field5=1',function(response){
+		});
+		}
 	});
-	if(gwl == 1)
-	{
-	$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field5=0',function(response){
-	});
-	}
-	else
-	{
-	$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field5=1',function(response){
-	});
-	}
+	
 }
 </script>
 </body>
