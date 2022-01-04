@@ -209,9 +209,9 @@ function check_update() {
 function save_config() {
 	$.get('https://api.thingspeak.com/channels/1618074/feeds.json?results=1',function(data){
 		console.log(data.feeds[0]);
-		var cf_par = $("#cf_lux_id").val() * 10000;
+		var cf_lux = $("#cf_lux_id").val() * 10000;
 		var of_lux = $("#of_lux_id").val();
-		var cf_lux = $("#cf_par_id").val() * 10000;
+		var cf_par = $("#cf_par_id").val() * 10000;
 		var th_par = $("#th_par_id").val() * 10000;
 		var strt = $("#strt_id").val();
 		var stop = $("#stop_id").val();
