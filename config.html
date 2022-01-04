@@ -205,7 +205,7 @@ function check_update() {
 		$("#strt_id").val(data.feeds[0].field4);
 		$("#stop_id").val(data.feeds[0].field5);
 
-		$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field1='+data.feeds[0].field1+'&field2='+data.feeds[0].field2+'&field3='+data.feeds[0].field3+'&field4='+data.feeds[0].field4+'&field5='+data.feeds[0].field5+'&field6='+data.feeds[0].field6+'&field7'+data.feeds[0].field7,function(response){
+		$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field1='+data.feeds[0].field1+'&field2='+data.feeds[0].field2+'&field3='+data.feeds[0].field3+'&field4='+data.feeds[0].field4+'&field5='+data.feeds[0].field5+'&field6='+data.feeds[0].field6+'&field7='+data.feeds[0].field7,function(response){
 		});
 
 	});
