@@ -199,6 +199,9 @@ function check_update() {
 	$.get('https://api.thingspeak.com/channels/1618074/feeds.json?results=1',function(data){
 		console.log(data.feeds[0]);
 		$("#cf_lux_id").val(data.feeds[0].field1);
+		$("#of_lux_id").val(data.feeds[0].field2);
+		$("#cf_par_id").val(data.feeds[0].field3);
+		$("#th_par_id").val(data.feeds[0].field4);
 
 		$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field1='+data.feeds[0].field1+'&field2='+data.feeds[0].field2+'&field3='+data.feeds[0].field3+'&field4='+data.feeds[0].field4+'&field5='+data.feeds[0].field5+'&field6='+data.feeds[0].field6+'&field7'+data.feeds[0].field7,function(response){
 		});
