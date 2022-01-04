@@ -154,27 +154,27 @@ html {
 		<table>
 		    <tr>
 			<td><label for="cf_lux">CF Lux</label></td>
-			<td><input type="text" id="cf_lux_id" name="" value=""></td>
+			<td><input class="center-text" type="text" id="cf_lux_id" name="" value=""></td>
 		    </tr>
 		     <tr>
 			<td><label for="cf_lux">Offset Lux</label></td>
-			<td><input type="text" id="of_lux_id" name="" value=""></td>
+			<td><input class="center-text" type="text" id="of_lux_id" name="" value=""></td>
 		    </tr>
 		    <tr>
 			<td><label for="cf_par">CF PAR</label></td>
-			<td><input type="text" id="cf_par_id" name="" value=""></td>
+			<td><input class="center-text" type="text" id="cf_par_id" name="" value=""></td>
 		    </tr>
 		    <tr>
 			<td><label for="cf_par">PAR Threshold</label></td>
-			<td><input type="text" id="th_par_id" name="" value=""></td>
+			<td><input class="center-text" type="text" id="th_par_id" name="" value=""></td>
 		    </tr>
 		    <tr>
 			<td><label for="cf_par">Start Time</label></td>
-			<td><input type="text" id="strt_id" name="" value=""></td>
+			<td><input class="center-text" type="text" id="strt_id" name="" value=""></td>
 		    </tr>
 		    <tr>
 			<td><label for="cf_par">Stop Time</label></td>
-			<td><input type="text" id="stop_id" name="" value=""></td>
+			<td><input class="center-text" type="text" id="stop_id" name="" value=""></td>
 		    </tr>
 		</table>
 	    </div>
@@ -198,10 +198,10 @@ html {
 function check_update() {
 	$.get('https://api.thingspeak.com/channels/1618074/feeds.json?results=1',function(data){
 		console.log(data.feeds[0]);
-		$("#cf_lux_id").val(data.feeds[0].field1);
+		$("#cf_lux_id").val(data.feeds[0].field1 / 10000);
 		$("#of_lux_id").val(data.feeds[0].field6);
-		$("#cf_par_id").val(data.feeds[0].field2);
-		$("#th_par_id").val(data.feeds[0].field3);
+		$("#cf_par_id").val(data.feeds[0].field2 / 10000);
+		$("#th_par_id").val(data.feeds[0].field3 / 10000);
 		$("#strt_id").val(data.feeds[0].field4);
 		$("#stop_id").val(data.feeds[0].field5);
 
