@@ -161,7 +161,7 @@ html {
 	</div>
 	<div class="row">		
 		<div class="col-6 col-s-12 menu">
-			<button class="button button3" onclick="test_growlight()">Test Grow Light</button>
+			<button id="myButton" class="button button3" onclick="test_growlight()">Test Grow Light</button>
 		</div>
 	</div>
 	<div class="row">		
@@ -176,16 +176,19 @@ html {
 <script>
 var gwl = 0; 
 function test_growlight() {
+	var tag=document.getElementById("myButton");
 	$.get('https://api.thingspeak.com/channels/1618074/feeds.json?results=1',function(data){
 		console.log(data.feeds[0].field7);
 		gwl = data.feeds[0].field7;
 		if(gwl == 1)
 		{
+			tag.value = "Turn On";
 			$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field1='+data.feeds[0].field1+'&field2='+data.feeds[0].field2+'&field3='+data.feeds[0].field3+'&field4='+data.feeds[0].field4+'&field5='+data.feeds[0].field5+'&field6='+data.feeds[0].field6+'&field7=0',function(response){
 			});
 		}
 		else
 		{
+			tag.value = "Turn Off";
 			$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field1='+data.feeds[0].field1+'&field2='+data.feeds[0].field2+'&field3='+data.feeds[0].field3+'&field4='+data.feeds[0].field4+'&field5='+data.feeds[0].field5+'&field6='+data.feeds[0].field6+'&field7=1',function(response){
 			});
 		}
