@@ -184,20 +184,45 @@ html {
 	    </div>
 	</div>
 	<div class="row" id="id_ppfd">
+	<div class="row">
 		<div class="col-6 col-s-12">
-			<iframe height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1614512/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=100&title=Photosynthetically+Active+Radiation&type=line&yaxis=PPFD&width=auto"></iframe>
+			<iframe height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1614512/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&title=Photosynthetically+Active+Radiation&type=line&yaxis=PPFD&width=auto&average=10&days=3&min=1"></iframe>
 		</div>
 	</div>
+		
+	<div class="row">
+		<div class="col-6 col-s-12">
+			<a href="https://thingspeak.com/channels/1614512/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&title=Photosynthetically+Active+Radiation&type=line&yaxis=PPFD&width=auto&height=auto&average=10&days=3&min=1">View</a>
+		</div>
+	</div>
+	</div>
+	
 	<div class="row" id="id_lux">		
+	<div class="row">
 		<div class="col-6 col-s-12">
-			<iframe style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1614512/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=100&title=Light+Intensity&type=line&yaxis=Lux&width=auto&height=auto"></iframe>
+			<iframe height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1614512/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&title=Light+Intensity&type=line&yaxis=Lux&width=auto&average=10&days=3&min=1"></iframe>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-6 col-s-12">
+			<a href="https://thingspeak.com/channels/1614512/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&title=Light+Intensity&type=line&yaxis=Lux&width=auto&height=auto&average=10&days=3&min=1">View</a>
+		</div>
+	</div>
+	</div>
+
 	<div class="row" id="id_suhr">		
+	<div class="row">
 		<div class="col-6 col-s-12">
-			<iframe style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1614512/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=100&type=line&title=Supplemental+Hour+Number&type=line&yaxis=Hour&width=auto&height=auto"></iframe>
+			<iframe height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1614512/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&type=line&title=Supplemental+Hour+Number&type=line&yaxis=Hour&width=auto&average=10&days=3&min=1"></iframe>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-6 col-s-12">
+			<a href="https://thingspeak.com/channels/1614512/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&type=line&title=Supplemental+Hour+Number&type=line&yaxis=Hour&width=auto&height=auto&average=10&days=3&min=1">View</a>
+		</div>
+	</div>
+	</div>
+
 	<div class="row">		
 		<div class="col-6 col-s-12 menu">
 			<p> Grow Light Switch </p><button id="myButton" class="button button3" onclick="test_growlight()">Test Grow Light</button>
