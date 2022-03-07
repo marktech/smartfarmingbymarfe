@@ -3,6 +3,8 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.4.2.min.js"></script>
+<link rel="stylesheet" href="gauge.min.css?v=0.2">
+
 <style>
 * {
   box-sizing: border-box;
@@ -135,11 +137,43 @@ html {
   .col-11 {width: 91.66%;}
   .col-12 {width: 100%;}
 }
+
+        .gauge-example {
+            display: flex;
+            flex-wrap: wrap;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .gauge-example>div {
+            background-color: #ffffff;
+            width: 48%;
+            min-width: 350px;
+            margin: 5px;
+            text-align: center;
+            padding-top: 40px;
+            line-height: 25px;
+            font-size: 14px;
+        }
+
+        .gauge-example>.gauge-description {
+            padding: 3em;
+            text-align: left;
+        }
+
+        .gauge-example>.gauge-description pre {
+            font-size: 12px;
+        }
+
+        .gauge {
+            margin: auto;
+        }
 </style>
 <title>Smart Agriculture By Marfe</title>
 </head>
 
 <body onload="get_default()">
+<div id="id_body">
 	<div class="row">
 	    <div class="col-6 col-s-12">
 	        <div class="header">
@@ -149,21 +183,35 @@ html {
 	        </div>
 	    </div>
 	</div>
-	<div class="row">
+	<div class="row" id="id_ppfd">
 		<div class="col-6 col-s-12">
 			<iframe height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1614512/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=100&title=Photosynthetically+Active+Radiation&type=line&yaxis=PPFD&width=auto"></iframe>
 		</div>
 	</div>
-	<div class="row">		
+	<div class="row" id="id_lux">		
 		<div class="col-6 col-s-12">
 			<iframe style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1614512/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=100&title=Light+Intensity&type=line&yaxis=Lux&width=auto&height=auto"></iframe>
 		</div>
 	</div>
-	<div class="row">		
-		<div class="col-6 col-s-12 menu">
-			<button id="myButton" class="button button3" onclick="test_growlight()">Test Grow Light</button>
+	<div class="row" id="id_suhr">		
+		<div class="col-6 col-s-12">
+			<iframe style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1614512/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=100&type=line&title=Supplemental+Hour+Number&type=line&yaxis=Hour&width=auto&height=auto"></iframe>
 		</div>
 	</div>
+	<div class="row">		
+		<div class="col-6 col-s-12 menu">
+			<p> Grow Light Switch </p><button id="myButton" class="button button3" onclick="test_growlight()">Test Grow Light</button>
+		</div>
+	</div>
+	
+	<div class="row">		
+		<div class="col-6 col-s-12 menu">
+			<button class="button button3" onclick="show_ppfd(1)">PPFD</button>
+			<button class="button button3" onclick="show_lux(1)">LUX</button>
+			<button class="button button3" onclick="show_suhr(1)">SUHR</button>
+		</div>
+	</div>
+
 	<div class="row">		
 		<div class="col-6 col-s-12 menu">
 			<ul>
@@ -171,11 +219,38 @@ html {
 			  <li><a href="index.html">Back</li>
 			</ul>
 		</div>
-
 	</div>
+</div>
 <script>
 var gwl = 0; 
+
+$(document).ready(function(){
+	setInterval(function(){
+	}, 3000);
+});
+
 function get_default() {
+	if(sessionStorage.getItem("shown_graph") == null)
+	{
+	show_ppfd(0);
+	sessionStorage.setItem("shown_graph", 0);
+	}
+	else if(sessionStorage.getItem("shown_graph") == 0)
+	{
+	show_ppfd(0);
+	sessionStorage.setItem("shown_graph", 0);
+	}
+	else if(sessionStorage.getItem("shown_graph") == 1)
+	{
+	show_lux(0);
+	sessionStorage.setItem("shown_graph", 1);
+	}
+	else if(sessionStorage.getItem("shown_graph") == 2)
+	{
+	show_suhr(0);
+	sessionStorage.setItem("shown_graph", 2);
+	}
+	
 	var tag=document.getElementById("myButton");
 	$.get('https://api.thingspeak.com/channels/1618074/feeds.json?results=1',function(data){
 		console.log(data.feeds[0].field7);
@@ -209,6 +284,62 @@ function test_growlight() {
 			});
 		}
 	});
+}
+
+function show_ppfd(val) {
+  var x = document.getElementById("id_ppfd");
+  var y = document.getElementById("id_lux");
+  var z = document.getElementById("id_suhr");
+  if (x.style.display === "none") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
+    y.style.display = "none";
+    z.style.display = "none";
+	if (val==1)
+	{
+		location.reload();
+	}
+	sessionStorage.setItem("shown_graph", 0);
+}
+
+function show_lux(val) {
+  var x = document.getElementById("id_ppfd");
+  var y = document.getElementById("id_lux");
+  var z = document.getElementById("id_suhr");
+  if (y.style.display === "none") {
+    y.style.display = "none";
+  } else {
+    y.style.display = "block";
+  }
+    x.style.display = "none";
+    z.style.display = "none";
+
+	if (val==1)
+	{
+		location.reload();
+	}
+	sessionStorage.setItem("shown_graph", 1);
+}
+
+function show_suhr(val) {
+  var x = document.getElementById("id_ppfd");
+  var y = document.getElementById("id_lux");
+  var z = document.getElementById("id_suhr");
+  if (z.style.display === "none") {
+    z.style.display = "none";
+  } else {
+    z.style.display = "block";
+  }
+    x.style.display = "none";
+    y.style.display = "none";
+
+	if (val==1)
+	{
+		location.reload();
+	}
+	sessionStorage.setItem("shown_graph", 2);
 }
 </script>
 </body>
