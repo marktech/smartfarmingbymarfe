@@ -99,7 +99,9 @@ $(document).ready(function()
  		  	p[0] = getChartDate(data.feeds[h].created_at);
 	 	  	p[1] = parseFloat(v);
 	 	  	// if a numerical value exists add it
-	   		if (!isNaN(parseInt(v))) { fieldList[fieldIndex].data.push(p); }
+	   		//if (!isNaN(parseInt(v))) { fieldList[fieldIndex].data.push(p); }
+	       	   		if ((!isNaN(parseInt(v)))&&(parseInt(v)<150000)) { fieldList[fieldIndex].data.push(p); }
+
        }
        fieldList[fieldIndex].name = eval("data.channel.field"+fieldList[fieldIndex].field);
 	   }
@@ -160,7 +162,7 @@ $(document).ready(function()
                       }
                       var shift = false ; //default for shift
                       // if a numerical value exists and it is a new date, add it
-                      if (!isNaN(parseInt(v)) && (p[0] != last_date)) 
+                      if (!isNaN(parseInt(v)) && (p[0] != last_date)&&(parseInt(v)<150000)) 
                       {
                         dynamicChart.series[chartSeriesIndex].addPoint(p, true, shift);
                       }   
@@ -390,7 +392,7 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
  		  	p[0] = getChartDate(data.feeds[h].created_at);
 	 	  	p[1] = parseFloat(v);
 	 	  	// if a numerical value exists add it
-	   		if (!isNaN(parseInt(v))) { fieldList[fieldIndex].data.push(p); }
+	   		if ((!isNaN(parseInt(v)))&&(parseInt(v)<150000)) { fieldList[fieldIndex].data.push(p); }
        }
        fieldList[fieldIndex].data.sort(function(a,b){return a[0]-b[0]});
        dynamicChart.series[fieldList[fieldIndex].series].setData(fieldList[fieldIndex].data,false);
