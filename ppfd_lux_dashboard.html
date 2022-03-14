@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script src="https://rawgithub.com/highslide-software/export-csv/master/export-csv.js"></script>
+    <script src="ppfd-lux.js"> </script>
+<link rel="stylesheet" href="gauge.min.css?v=0.2">
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+[class*="col-"] {
+  float: left;
+  padding: 15px;
+}
+
+html {
+  font-family: "Lucida Sans", sans-serif;
+}
+
+.header {
+  background-color: #9933cc;
+  color: #ffffff;
+  padding: 15px;
+}
+
+.menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu li {
+  padding: 8px;
+  margin-bottom: 7px;
+  background-color: #33b5e5;
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.menu li:hover {
+  background-color: #0099cc;
+}
+
+.aside {
+  background-color: #33b5e5;
+  padding: 15px;
+  color: #ffffff;
+  text-align: center;
+  font-size: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.aside1 {
+  background-color: #33b5e5;
+  padding: 15px;
+  color: #ffffff;
+  text-align: center;
+  font-size: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.center-text {
+  padding: 15px;
+  color: #ffffff;
+  text-align: center;
+  font-size: 14px;
+}
+
+.footer {
+  background-color: #0099cc;
+  color: #ffffff;
+  text-align: center;
+  font-size: 12px;
+  padding: 15px;
+}
+
+/* For mobile phones: */
+@media only screen and (max-width: 600px) {
+	[class*="col-"] {
+	  width: 100%;
+	}
+	.img-s-1{width: 75%;height:75%;}
+}
+
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button1 {font-size: 10px;}
+.button2 {font-size: 12px;}
+.button3 {font-size: 16px;}
+.button4 {font-size: 20px;}
+.button5 {font-size: 24px;}
+
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+  .col-s-1 {width: 8.33%;}
+  .col-s-2 {width: 16.66%;}
+  .col-s-3 {width: 25%;}
+  .col-s-4 {width: 33.33%;}
+  .col-s-5 {width: 41.66%;}
+  .col-s-6 {width: 50%;}
+  .col-s-7 {width: 58.33%;}
+  .col-s-8 {width: 66.66%;}
+  .col-s-9 {width: 75%;}
+  .col-s-10 {width: 83.33%;}
+  .col-s-11 {width: 91.66%;}
+  .col-s-12 {width: 100%;}
+}
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  .col-1 {width: 8.33%;}
+  .col-2 {width: 16.66%;}
+  .col-3 {width: 25%;}
+  .col-4 {width: 33.33%;}
+  .col-5 {width: 41.66%;}
+  .col-6 {width: 50%;}
+  .col-7 {width: 58.33%;}
+  .col-8 {width: 66.66%;}
+  .col-9 {width: 75%;}
+  .col-10 {width: 83.33%;}
+  .col-11 {width: 91.66%;}
+  .col-12 {width: 100%;}
+}
+
+        .gauge-example {
+            display: flex;
+            flex-wrap: wrap;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .gauge-example>div {
+            background-color: #ffffff;
+            width: 48%;
+            min-width: 350px;
+            margin: 5px;
+            text-align: center;
+            padding-top: 40px;
+            line-height: 25px;
+            font-size: 14px;
+        }
+
+        .gauge-example>.gauge-description {
+            padding: 3em;
+            text-align: left;
+        }
+
+        .gauge-example>.gauge-description pre {
+            font-size: 12px;
+        }
+
+        .gauge {
+            margin: auto;
+        }
+</style>
+<title>Smart Agriculture By Marfe</title>
+</head>
+
+<body onload="get_default()">
+<div id="id_body">
+	<div class="row">
+	    <div class="col-6 col-s-12">
+	        <div class="header">
+		    <div>
+			<h1>Dashboard</h1>
+		    </div>
+	        </div>
+	    </div>
+	</div>
+	<div class="row" id="id_ppfd">
+	<div class="row">
+		<div class="col-6 col-s-12" id="chart-container">
+		</div>
+	</div>
+		
+	<div class="row">
+		<div class="col-6 col-s-12">
+			<a href="ppfd_lux.html">View</a>
+		</div>
+	</div>
+	</div>
+	
+ 	<div class="row">		
+		<div class="col-6 col-s-12 menu">
+		<div id="below chart"> 
+		<button style="width: 89px; margin-top: -18px;" value="Hide All"
+        name="Hide All Button"
+        onclick="HideAll();">Hide
+        All</button><button style="width: 162px; margin-top: -18px;" value="Load More Data"
+        name="Load More Data"
+        onclick="loadOneChannel();">Load
+        More Historical Data </button>
+      <select id="Channel Select">
+      </select>
+      <select id="Loads">
+        <option value="1">1 Load</option>
+        <option value="2">2 Loads</option>
+        <option value="3">3 Loads</option>
+        <option value="4">4 Loads</option>
+        <option value="5">5 Loads</option>
+        <option value="6">6 Loads</option>
+        <option value="7">7 Loads</option>
+        <option value="8">8 Loads</option>
+        <option value="9">9 Loads</option>
+        <option value="10">10 Loads</option>
+        <option value="15">15 Loads</option>
+        <option value="20" >20 Loads</option>
+        <option value="25" selected="selected">25 Loads</option>
+        <option value="30">30 Loads</option>
+        <option value="40">40 Loads</option>
+        <option value="50" >50 Loads</option>
+      </select>
+      <input id="Update" name="Update" type="checkbox"><span style="font-family: Lucida Grande;">Update</span>
+    </div>
+	</div>
+	</div>
+	
+	<div class="row">		
+		<div class="col-6 col-s-12 menu">
+			<button class="button button3" onclick="location.href='ppfd_lux_dashboard.html';">PPFD-LUX</button>
+			<button class="button button3" onclick="location.href='ct_suhr_dashboard.html';">CT_SUHR</button>
+		</div>
+	</div>
+
+	<div class="row">		
+		<div class="col-6 col-s-12 menu">
+			<p> Grow Light Switch </p><button id="myButton" class="button button3" onclick="test_growlight()">Test Grow Light</button>
+		</div>
+	</div>
+		
+
+	<div class="row">		
+		<div class="col-6 col-s-12 menu">
+			<ul>
+			  <li><a href="config.html">Configurations</li>
+			  <li><a href="index.html">Back</li>
+			</ul>
+		</div>
+	</div>
+
+</div>
+
+<script>
+var gwl = 0; 
+
+$(document).ready(function(){
+	setInterval(function(){
+	}, 3000);
+});
+
+function get_default() {
+	if(sessionStorage.getItem("shown_graph") == null)
+	{
+	show_ppfd(0);
+	sessionStorage.setItem("shown_graph", 0);
+	}
+	else if(sessionStorage.getItem("shown_graph") == 0)
+	{
+	show_ppfd(0);
+	sessionStorage.setItem("shown_graph", 0);
+	}
+	else if(sessionStorage.getItem("shown_graph") == 1)
+	{
+	show_lux(0);
+	sessionStorage.setItem("shown_graph", 1);
+	}
+	else if(sessionStorage.getItem("shown_graph") == 2)
+	{
+	show_suhr(0);
+	sessionStorage.setItem("shown_graph", 2);
+	}
+	
+	var tag=document.getElementById("myButton");
+	$.get('https://api.thingspeak.com/channels/1618074/feeds.json?results=1',function(data){
+		console.log(data.feeds[0].field7);
+		gwl = data.feeds[0].field7;
+		if(gwl == 1)
+		{
+			tag.innerHTML = "Turn Off";
+		}
+		else
+		{
+			tag.innerHTML = "Turn On";
+		}
+	});
+}
+
+function test_growlight() {
+	var tag=document.getElementById("myButton");
+	$.get('https://api.thingspeak.com/channels/1618074/feeds.json?results=1',function(data){
+		console.log(data.feeds[0].field7);
+		gwl = data.feeds[0].field7;
+		if(gwl == 1)
+		{
+			$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field1='+data.feeds[0].field1+'&field2='+data.feeds[0].field2+'&field3='+data.feeds[0].field3+'&field4='+data.feeds[0].field4+'&field5='+data.feeds[0].field5+'&field6='+data.feeds[0].field6+'&field7=0',function(response){
+			tag.innerHTML = "Turn On";
+			});
+		}
+		else
+		{
+			$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field1='+data.feeds[0].field1+'&field2='+data.feeds[0].field2+'&field3='+data.feeds[0].field3+'&field4='+data.feeds[0].field4+'&field5='+data.feeds[0].field5+'&field6='+data.feeds[0].field6+'&field7=1',function(response){
+			tag.innerHTML = "Turn Off";
+			});
+		}
+	});
+}
+
+function show_ppfd(val) {
+  var x = document.getElementById("id_ppfd");
+  var y = document.getElementById("id_lux");
+
+  if (x.style.display === "none") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
+    y.style.display = "none";
+
+	if (val==1)
+	{
+		location.reload();
+	}
+	sessionStorage.setItem("shown_graph", 0);
+}
+
+function show_lux(val) {
+  var x = document.getElementById("id_ppfd");
+  var y = document.getElementById("id_lux");
+  if (y.style.display === "none") {
+    y.style.display = "none";
+  } else {
+    y.style.display = "block";
+  }
+    x.style.display = "none";
+
+
+	if (val==1)
+	{
+		location.reload();
+	}
+	sessionStorage.setItem("shown_graph", 1);
+}
+
+</script>
+
+</body>
+</html>
