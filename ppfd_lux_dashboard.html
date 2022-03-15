@@ -5,7 +5,7 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.4.2.min.js"></script>
     <script src="https://code.highcharts.com/stock/highstock.js"></script>
     <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
-    <script src="https://rawgithub.com/highslide-software/export-csv/master/export-csv.js"></script>
+	<script src="https://highcharts.github.io/export-csv/export-csv.js"></script>
     <script src="ppfd-lux.js"> </script>
 <link rel="stylesheet" href="gauge.min.css?v=0.2">
 
@@ -203,16 +203,15 @@ html {
  	<div class="row">		
 		<div class="col-6 col-s-12 menu">
 		<div id="below chart"> 
-		<button style="width: 89px; margin-top: -18px;" value="Hide All"
+		<button hidden style="width: 89px; margin-top: -18px;" value="Hide All"
         name="Hide All Button"
         onclick="HideAll();">Hide
-        All</button><button style="width: 162px; margin-top: -18px;" value="Load More Data"
+        All</button><button class="button button3" value="Load More Data"
         name="Load More Data"
-        onclick="loadOneChannel();">Load
-        More Historical Data </button>
-      <select id="Channel Select">
+        onclick="loadOneChannel();">Load Data </button>
+      <select hidden id="Channel Select">
       </select>
-      <select id="Loads">
+      <select hidden id="Loads">
         <option value="1">1 Load</option>
         <option value="2">2 Loads</option>
         <option value="3">3 Loads</option>
@@ -230,15 +229,15 @@ html {
         <option value="40">40 Loads</option>
         <option value="50" >50 Loads</option>
       </select>
-      <input id="Update" name="Update" type="checkbox"><span style="font-family: Lucida Grande;">Update</span>
+      <input hidden id="Update" name="Update" type="checkbox"><span style="font-family: Lucida Grande;"><a hidden>Update</a></span>
     </div>
 	</div>
 	</div>
 	
 	<div class="row">		
 		<div class="col-6 col-s-12 menu">
-			<button class="button button3" onclick="location.href='ppfd_lux_dashboard.html';">PPFD-LUX</button>
-			<button class="button button3" onclick="location.href='ct_suhr_dashboard.html';">CT_SUHR</button>
+			<button class="button button3" onclick="location.href='ppfd_lux_dashboard.html';">PPFD-SUHR</button>
+			<button class="button button3" onclick="location.href='ct_suhr_dashboard.html';">CT_LUX</button>
 		</div>
 	</div>
 
@@ -268,28 +267,7 @@ $(document).ready(function(){
 	}, 3000);
 });
 
-function get_default() {
-	if(sessionStorage.getItem("shown_graph") == null)
-	{
-	show_ppfd(0);
-	sessionStorage.setItem("shown_graph", 0);
-	}
-	else if(sessionStorage.getItem("shown_graph") == 0)
-	{
-	show_ppfd(0);
-	sessionStorage.setItem("shown_graph", 0);
-	}
-	else if(sessionStorage.getItem("shown_graph") == 1)
-	{
-	show_lux(0);
-	sessionStorage.setItem("shown_graph", 1);
-	}
-	else if(sessionStorage.getItem("shown_graph") == 2)
-	{
-	show_suhr(0);
-	sessionStorage.setItem("shown_graph", 2);
-	}
-	
+function get_default() {	
 	var tag=document.getElementById("myButton");
 	$.get('https://api.thingspeak.com/channels/1618074/feeds.json?results=1',function(data){
 		console.log(data.feeds[0].field7);
@@ -323,42 +301,6 @@ function test_growlight() {
 			});
 		}
 	});
-}
-
-function show_ppfd(val) {
-  var x = document.getElementById("id_ppfd");
-  var y = document.getElementById("id_lux");
-
-  if (x.style.display === "none") {
-    x.style.display = "none";
-  } else {
-    x.style.display = "block";
-  }
-    y.style.display = "none";
-
-	if (val==1)
-	{
-		location.reload();
-	}
-	sessionStorage.setItem("shown_graph", 0);
-}
-
-function show_lux(val) {
-  var x = document.getElementById("id_ppfd");
-  var y = document.getElementById("id_lux");
-  if (y.style.display === "none") {
-    y.style.display = "none";
-  } else {
-    y.style.display = "block";
-  }
-    x.style.display = "none";
-
-
-	if (val==1)
-	{
-		location.reload();
-	}
-	sessionStorage.setItem("shown_graph", 1);
 }
 
 </script>

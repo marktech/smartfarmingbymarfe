@@ -15,7 +15,7 @@ var channelKeys =[];
 //Change TO: display two fields from the same channel from a Rain gauge - 15min counts, and total counts
 //  src="http://api.thingspeak.com/channels/8652/charts/3?width=1300&height=520&results=1000&dynamic=false&title=15minTotals%20(0.5mm)" ></iframe>
 channelKeys.push({channelNumber:1614512, name:'PPFD',key:'B30E75CIAH9HH3TJ',
-   fieldList:[{field:1,axis:'C'},{field:5,axis:'R'}]});
+   fieldList:[{field:1,axis:'C'},{field:2,axis:'R'}]});
     
 // user's timezone offset
 var myOffset = new Date().getTimezoneOffset();
@@ -99,9 +99,7 @@ $(document).ready(function()
  		  	p[0] = getChartDate(data.feeds[h].created_at);
 	 	  	p[1] = parseFloat(v);
 	 	  	// if a numerical value exists add it
-	   		//if (!isNaN(parseInt(v))) { fieldList[fieldIndex].data.push(p); }
-	       	   		if ((!isNaN(parseInt(v)))&&(parseInt(v)<150000)) { fieldList[fieldIndex].data.push(p); }
-
+	   		if (!isNaN(parseInt(v))&&(parseInt(v)<150000)) { fieldList[fieldIndex].data.push(p); }
        }
        fieldList[fieldIndex].name = eval("data.channel.field"+fieldList[fieldIndex].field);
 	   }
@@ -267,7 +265,7 @@ $(document).ready(function()
 		},
 		yAxis: [{
             title: {
-                text: 'Hours'
+                text: 'Lux'
             },
             id: 'R'
     }, {
@@ -380,7 +378,7 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
        $('#chart-container_suhr').append('This channel is not public.  To embed charts, the channel must be public or a read key must be specified.');
        window.console && console.log('Thingspeak Data Loading Error');
      }
-	 
+	 else{
      for (var fieldIndex=0; fieldIndex<fieldList.length; fieldIndex++)  // iterate through each field
      {
        //fieldList[fieldIndex].data =[];
@@ -392,7 +390,7 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
  		  	p[0] = getChartDate(data.feeds[h].created_at);
 	 	  	p[1] = parseFloat(v);
 	 	  	// if a numerical value exists add it
-	   		if ((!isNaN(parseInt(v)))&&(parseInt(v)<150000)) { fieldList[fieldIndex].data.push(p); }
+	   		if (!isNaN(parseInt(v))&&(parseInt(v)<150000)) { fieldList[fieldIndex].data.push(p); }
        }
        fieldList[fieldIndex].data.sort(function(a,b){return a[0]-b[0]});
        dynamicChart.series[fieldList[fieldIndex].series].setData(fieldList[fieldIndex].data,false);
@@ -405,6 +403,7 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
      window.console && console.log('channel index:',channelIndex);
      numLoads++;
      if (numLoads<maxLoads) {loadChannelHistory(channelIndex,channelNumber,key,fieldList,numLoads,maxLoads);}
+   }
 	 });
 }
 
