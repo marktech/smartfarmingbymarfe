@@ -95,9 +95,23 @@ $(document).ready(function()
        {
          var p = []//new Highcharts.Point();
          var fieldStr = "data.feeds["+h+"].field"+fieldList[fieldIndex].field;
-		  	 var v = eval(fieldStr);
+		 
+			var v = eval(fieldStr);
  		  	p[0] = getChartDate(data.feeds[h].created_at);
 	 	  	p[1] = parseFloat(v);
+			var timeDate = new Date(data.feeds[h].created_at);
+			console.log(timeDate.getHours());
+			
+			if(fieldIndex==1)
+			{
+			if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
+			(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
+			(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
+				p[1] = 1;
+			else
+				p[1] = 0;
+			}	
+			
 	 	  	// if a numerical value exists add it
 	   		if ((!isNaN(parseInt(v)))&&(parseInt(v)<150000)) { fieldList[fieldIndex].data.push(p); }
        }
@@ -153,6 +167,19 @@ $(document).ready(function()
                       var v = eval(fieldStr);
                       p[0] = getChartDate(data.created_at);
                       p[1] = parseFloat(v);
+					  
+						var timeDate = new Date(data.created_at);
+						console.log(timeDate.getHours());
+						if(fieldIndex==1)
+						{
+						if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
+						(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
+						(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
+							p[1] = 1;
+						else
+							p[1] = 0;
+						}	
+			
                       // get the last date if possible
                       if (dynamicChart.series[chartSeriesIndex].data.length > 0) 
                       { 
@@ -341,8 +368,9 @@ $(document).ready(function()
       }
     )(channelIndex);
   }
-	 loadOneChannel();
+  loadOneChannel();
  }
+ 
 });
       
 function loadOneChannel(){ 
@@ -390,6 +418,17 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 		  	 var v = eval(fieldStr);
  		  	p[0] = getChartDate(data.feeds[h].created_at);
 	 	  	p[1] = parseFloat(v);
+			var timeDate = new Date(data.feeds[h].created_at);
+			console.log(timeDate.getHours());
+			if(fieldIndex==1)
+			{
+			if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
+			(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
+			(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
+				p[1] = 1;
+			else
+				p[1] = 0;
+			}	
 	 	  	// if a numerical value exists add it
 	   		if (!isNaN(parseInt(v))&&(parseInt(v)<150000)) { fieldList[fieldIndex].data.push(p); }
        }

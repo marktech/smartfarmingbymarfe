@@ -341,7 +341,7 @@ $(document).ready(function()
       }
     )(channelIndex);
   }
-	 loadOneChannel();
+	loadOneChannel();
  }
 });
       
