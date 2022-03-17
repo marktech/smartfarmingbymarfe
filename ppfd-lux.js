@@ -104,9 +104,10 @@ $(document).ready(function()
 			
 			if(fieldIndex==1)
 			{
-			if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
-			(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
-			(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
+			//if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
+			//(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
+			//(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
+			if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
 				p[1] = 1;
 			else
 				p[1] = 0;
@@ -172,9 +173,10 @@ $(document).ready(function()
 						console.log(timeDate.getHours());
 						if(fieldIndex==1)
 						{
-						if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
-						(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
-						(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
+						//if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
+						//(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
+						//(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
+						if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
 							p[1] = 1;
 						else
 							p[1] = 0;
@@ -292,7 +294,7 @@ $(document).ready(function()
 		},
 		yAxis: [{
             title: {
-                text: 'Hours'
+                text: 'LED Status'
             },
             id: 'R'
     }, {
@@ -422,9 +424,10 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 			console.log(timeDate.getHours());
 			if(fieldIndex==1)
 			{
-			if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
-			(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
-			(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
+			//if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
+			//(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
+			//(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
+			if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
 				p[1] = 1;
 			else
 				p[1] = 0;
