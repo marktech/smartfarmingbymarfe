@@ -166,9 +166,20 @@ $(document).ready(function()
                     {
                       var p = []//new Highcharts.Point();
                       var v = eval(fieldStr);
+					  
                       p[0] = getChartDate(data.created_at);
                       p[1] = parseFloat(v);
-					  
+						if(fieldIndex==1)
+						{
+							var span = document.getElementById("id_cur_hr");
+							span.innerText = v;
+						}
+						else
+						{
+							var span = document.getElementById("id_cur_par");
+							span.innerText = v;
+						}
+
 						var timeDate = new Date(data.created_at);
 						console.log(timeDate.getHours());
 						if(fieldIndex==1)
@@ -212,6 +223,28 @@ $(document).ready(function()
 				}
 			}
 		},
+		function(chart) {
+   
+      labelText = 'Series 1, y: <br/>Series 2, y: ';
+
+    chart.renderer.text(labelText, 80, 80)
+      .attr({
+        zIndex: 5
+      })
+      .css({
+        fontSize: '12px'
+      })
+      .add();
+
+    chart.renderer.rect(75, 65, 135, 40, 2)
+      .attr({
+        'stroke-width': 2,
+        stroke: 'black',
+        fill: '#CEF74A',
+        zIndex: 4
+      })
+      .add();
+  },
 		rangeSelector: {
 			buttons: [{
 				count: 30,
