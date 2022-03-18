@@ -169,15 +169,16 @@ $(document).ready(function()
 					  
                       p[0] = getChartDate(data.created_at);
                       p[1] = parseFloat(v);
+
 						if(fieldIndex==1)
 						{
 							var span = document.getElementById("id_cur_hr");
-							span.innerText = v;
+							span.innerText = Math.round(v * 10.0) / 10.0;
 						}
 						else
 						{
 							var span = document.getElementById("id_cur_par");
-							span.innerText = v;
+							span.innerText = Math.round(v * 10.0) / 10.0;
 						}
 
 						var timeDate = new Date(data.created_at);
