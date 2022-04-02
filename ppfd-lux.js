@@ -113,6 +113,14 @@ $(document).ready(function()
 				p[1] = 0;
 			}	
 			
+			if(fieldIndex==0)
+			{
+			if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))
+			{
+				p[1] = 150;
+			}
+			}
+			
 	 	  	// if a numerical value exists add it
 	   		if ((!isNaN(parseInt(v)))&&(parseInt(v)<150000)) { fieldList[fieldIndex].data.push(p); }
        }
@@ -194,6 +202,14 @@ $(document).ready(function()
 							p[1] = 0;
 						}	
 			
+						if(fieldIndex==0)
+						{
+						if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))
+						{
+							p[1] = 150;
+						}
+						}
+						
                       // get the last date if possible
                       if (dynamicChart.series[chartSeriesIndex].data.length > 0) 
                       { 
@@ -466,6 +482,15 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 			else
 				p[1] = 0;
 			}	
+
+			if(fieldIndex==0)
+			{
+			if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))
+			{
+				p[1] = 150;
+			}
+			}
+			
 	 	  	// if a numerical value exists add it
 	   		if (!isNaN(parseInt(v))&&(parseInt(v)<150000)) { fieldList[fieldIndex].data.push(p); }
        }
