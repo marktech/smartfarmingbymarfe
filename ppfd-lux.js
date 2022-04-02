@@ -1,5 +1,5 @@
 
-      
+var xhours = 0;     
       // Webpage Javascript to chart multiple ThingSpeak channels on two axis with navigator, load historical data, and export cvs data.
       // Public Domain, by turgo.
       //  The charting library is called HighStock.  It is awesome!  HighSoft, the owners say, 
@@ -87,7 +87,7 @@ $(document).ready(function()
      }
 	 else {
 	 
-	 
+		xhours = 0;
      for (var fieldIndex=0; fieldIndex<fieldList.length; fieldIndex++)  // iterate through each field
      {
        fieldList[fieldIndex].data =[];
@@ -100,25 +100,31 @@ $(document).ready(function()
  		  	p[0] = getChartDate(data.feeds[h].created_at);
 	 	  	p[1] = parseFloat(v);
 			var timeDate = new Date(data.feeds[h].created_at);
-			console.log(timeDate.getHours());
+			console.log(p[1]);
 			
 			if(fieldIndex==1)
 			{
-			//if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
-			//(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
-			//(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
-			if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
-				p[1] = 1;
-			else
-				p[1] = 0;
+				if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
+				{
+					xhours = p[1];
+				}
+				//if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
+				//(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
+				//(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
+				//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
+				if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
+					p[1] = 1;
+				else
+					p[1] = 0;
 			}	
 			
 			if(fieldIndex==0)
 			{
-			if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))
-			{
-				p[1] = 150;
-			}
+				//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))
+				if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
+				{
+					p[1] = 150;
+				}
 			}
 			
 	 	  	// if a numerical value exists add it
@@ -158,6 +164,7 @@ $(document).ready(function()
             {
              if (document.getElementById("Update").checked)
              {
+				xhours = 0;
               for (var channelIndex=0; channelIndex<channelKeys.length; channelIndex++)  // iterate through each channel
               {  
                (function(channelIndex)
@@ -165,6 +172,7 @@ $(document).ready(function()
                 // get the data with a webservice call
                 $.getJSON('https://api.thingspeak.com/channels/'+channelKeys[channelIndex].channelNumber+'/feed/last.json?offset=0&amp;location=false;key='+channelKeys[channelIndex].key, function(data) 
                 { 
+
                   for (var fieldIndex=0; fieldIndex<channelKeys[channelIndex].fieldList.length; fieldIndex++)
                   {
                     // if data exists
@@ -191,23 +199,30 @@ $(document).ready(function()
 
 						var timeDate = new Date(data.created_at);
 						console.log(timeDate.getHours());
+						
 						if(fieldIndex==1)
 						{
-						//if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
-						//(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
-						//(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
-						if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
-							p[1] = 1;
-						else
-							p[1] = 0;
+							if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
+							{
+								xhours = p[1];
+							}
+							//if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
+							//(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
+							//(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
+							//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
+							if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
+								p[1] = 1;
+							else
+								p[1] = 0;
 						}	
 			
 						if(fieldIndex==0)
 						{
-						if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))
-						{
-							p[1] = 150;
-						}
+							//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))
+							if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
+							{
+								p[1] = 150;
+							}
 						}
 						
                       // get the last date if possible
@@ -458,8 +473,10 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 	   if (data == '-1') {
        $('#chart-container').append('This channel is not public.  To embed charts, the channel must be public or a read key must be specified.');
        window.console && console.log('Thingspeak Data Loading Error');
-     }
-	 else{
+		}
+		else{
+			xhours = 0;
+
      for (var fieldIndex=0; fieldIndex<fieldList.length; fieldIndex++)  // iterate through each field
      {
        //fieldList[fieldIndex].data =[];
@@ -474,21 +491,27 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 			console.log(timeDate.getHours());
 			if(fieldIndex==1)
 			{
-			//if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
-			//(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
-			//(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
-			if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
-				p[1] = 1;
-			else
-				p[1] = 0;
+				if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
+				{
+					xhours = p[1];
+				}
+				//if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
+				//(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
+				//(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
+				//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
+				if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
+					p[1] = 1;
+				else
+					p[1] = 0;
 			}	
 
 			if(fieldIndex==0)
 			{
-			if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))
-			{
-				p[1] = 150;
-			}
+				//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))
+				if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
+				{
+					p[1] = 150;
+				}
 			}
 			
 	 	  	// if a numerical value exists add it
