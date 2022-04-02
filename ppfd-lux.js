@@ -123,7 +123,7 @@ $(document).ready(function()
 				//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))
 				if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
 				{
-					p[1] = 150;
+					p[1] = (150+parseFloat(v))/2.0;
 				}
 			}
 			
@@ -186,7 +186,7 @@ $(document).ready(function()
                       p[0] = getChartDate(data.created_at);
                       p[1] = parseFloat(v);
 
-						if(fieldIndex==1)
+						/*if(fieldIndex==1)
 						{
 							var span = document.getElementById("id_cur_hr");
 							span.innerText = Math.round(v * 10.0) / 10.0;
@@ -195,13 +195,15 @@ $(document).ready(function()
 						{
 							var span = document.getElementById("id_cur_par");
 							span.innerText = Math.round(v * 10.0) / 10.0;
-						}
+						}*/
 
 						var timeDate = new Date(data.created_at);
 						console.log(timeDate.getHours());
 						
 						if(fieldIndex==1)
 						{
+							var span = document.getElementById("id_cur_hr");
+							span.innerText = Math.round(v * 10.0) / 10.0;
 							if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
 							{
 								xhours = p[1];
@@ -221,8 +223,10 @@ $(document).ready(function()
 							//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))
 							if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
 							{
-								p[1] = 150;
+								p[1] = (150+parseFloat(v))/2.0;
 							}
+							var span = document.getElementById("id_cur_par");
+							span.innerText = Math.round(p[1] * 10.0) / 10.0;
 						}
 						
                       // get the last date if possible
@@ -510,7 +514,7 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 				//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))
 				if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
 				{
-					p[1] = 150;
+					p[1] = (150+parseFloat(v))/2.0;
 				}
 			}
 			
