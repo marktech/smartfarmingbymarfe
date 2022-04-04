@@ -99,6 +99,7 @@ $(document).ready(function()
 			var v = eval(fieldStr);
  		  	p[0] = getChartDate(data.feeds[h].created_at);
 	 	  	p[1] = parseFloat(v);
+			
 			var timeDate = new Date(data.feeds[h].created_at);
 			console.log(p[1]);
 			
@@ -111,8 +112,9 @@ $(document).ready(function()
 				//if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
 				//(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
 				//(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
-				//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
-				if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
+				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
+				//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0)&&(timeDate.getHours() <= (18+xhours)))
+				//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
 					p[1] = 1;
 				else
 					p[1] = 0;
@@ -120,11 +122,17 @@ $(document).ready(function()
 			
 			if(fieldIndex==0)
 			{
-				//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))
-				if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
+				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
+				//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
 				{
 					p[1] = (150+parseFloat(v))/2.0;
 				}
+				//else if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(timeDate.getHours() <= (18+xhours)))
+				//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
+				//{
+				//	p[1] = 150;
+				//}
+
 			}
 			
 	 	  	// if a numerical value exists add it
@@ -211,8 +219,9 @@ $(document).ready(function()
 							//if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
 							//(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
 							//(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
-							//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
-							if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
+							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
+							//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0)&&(timeDate.getHours() <= (18+xhours)))
+							//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
 								p[1] = 1;
 							else
 								p[1] = 0;
@@ -220,11 +229,16 @@ $(document).ready(function()
 			
 						if(fieldIndex==0)
 						{
-							//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))
-							if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
+							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
+							//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
 							{
 								p[1] = (150+parseFloat(v))/2.0;
 							}
+							//else if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(timeDate.getHours() <= (18+xhours)))
+							//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
+							//{
+							//	p[1] = 150;
+							//}
 							var span = document.getElementById("id_cur_par");
 							span.innerText = Math.round(p[1] * 10.0) / 10.0;
 						}
@@ -502,8 +516,9 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 				//if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
 				//(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
 				//(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
-				//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
-				if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
+				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
+				//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0)&&(timeDate.getHours() <= (18+xhours)))
+				//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
 					p[1] = 1;
 				else
 					p[1] = 0;
@@ -511,11 +526,16 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 
 			if(fieldIndex==0)
 			{
-				//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))
-				if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
+				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
+				//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
 				{
 					p[1] = (150+parseFloat(v))/2.0;
 				}
+				//else if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(timeDate.getHours() <= (18+xhours)))
+				//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
+				//{
+				//	p[1] = 150;
+				//}
 			}
 			
 	 	  	// if a numerical value exists add it
