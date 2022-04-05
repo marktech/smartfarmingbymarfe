@@ -287,6 +287,7 @@ $(document).ready(function(){
 
 function get_default() {	
 	var tag=document.getElementById("myButton");
+	get_last();
 	$.get('https://api.thingspeak.com/channels/1618074/feeds.json?results=1',function(data){
 		console.log(data.feeds[0].field7);
 		gwl = data.feeds[0].field7;

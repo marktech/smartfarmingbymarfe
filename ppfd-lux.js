@@ -46,14 +46,17 @@ $(document).ready(function()
 {
  //Add Channel Load Menu
  var menu=document.getElementById("Channel Select");
+ 
  for (var channelIndex=0; channelIndex<channelKeys.length; channelIndex++)  // iterate through each channel
  {
    window.console && console.log('Name',channelKeys[channelIndex].name);
    var menuOption =new Option(channelKeys[channelIndex].name,channelIndex);
    menu.options.add(menuOption,channelIndex);
  }
+ 
  var last_date; // variable for the last date added to the chart
  window.console && console.log('Testing console');
+ 
  //make series numbers for each field
  var seriesCounter=0
  for (var channelIndex=0; channelIndex<channelKeys.length; channelIndex++)  // iterate through each channel
@@ -109,12 +112,8 @@ $(document).ready(function()
 				{
 					xhours = p[1];
 				}
-				//if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
-				//(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
-				//(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
+				
 				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
-				//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0)&&(timeDate.getHours() <= (18+xhours)))
-				//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
 					p[1] = 1;
 				else
 					p[1] = 0;
@@ -123,19 +122,11 @@ $(document).ready(function()
 			if(fieldIndex==0)
 			{
 				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
-				//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
 				{
 					p[1] = (150+parseFloat(v))/2.0;
 				}
-				//else if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(timeDate.getHours() <= (18+xhours)))
-				//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
-				//{
-				//	p[1] = 150;
-				//}
-
 			}
 			
-	 	  	// if a numerical value exists add it
 	   		if ((!isNaN(parseInt(v)))&&(parseInt(v)<150000)) { fieldList[fieldIndex].data.push(p); }
        }
        fieldList[fieldIndex].name = eval("data.channel.field"+fieldList[fieldIndex].field);
@@ -153,6 +144,7 @@ $(document).ready(function()
 	 })
    .fail(function() { alert('getJSON request failed! '); });
  }
+ 
  // create the chart when all data is loaded
  function createChart() {
 	// specify the chart options
@@ -168,7 +160,7 @@ $(document).ready(function()
 				  if ('true' === 'true' && (''.length < 1 && ''.length < 1 && ''.length < 1 && ''.length < 1 && ''.length < 1)) 
           {
             // If the update checkbox is checked, get latest data every 15 seconds and add it to the chart
-						setInterval(function() 
+			setInterval(function() 
             {
              if (document.getElementById("Update").checked)
              {
@@ -194,17 +186,6 @@ $(document).ready(function()
                       p[0] = getChartDate(data.created_at);
                       p[1] = parseFloat(v);
 
-						/*if(fieldIndex==1)
-						{
-							var span = document.getElementById("id_cur_hr");
-							span.innerText = Math.round(v * 10.0) / 10.0;
-						}
-						else
-						{
-							var span = document.getElementById("id_cur_par");
-							span.innerText = Math.round(v * 10.0) / 10.0;
-						}*/
-
 						var timeDate = new Date(data.created_at);
 						console.log(timeDate.getHours());
 						
@@ -216,12 +197,8 @@ $(document).ready(function()
 							{
 								xhours = p[1];
 							}
-							//if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
-							//(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
-							//(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
+
 							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
-							//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0)&&(timeDate.getHours() <= (18+xhours)))
-							//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
 								p[1] = 1;
 							else
 								p[1] = 0;
@@ -230,15 +207,10 @@ $(document).ready(function()
 						if(fieldIndex==0)
 						{
 							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
-							//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
 							{
 								p[1] = (150+parseFloat(v))/2.0;
 							}
-							//else if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(timeDate.getHours() <= (18+xhours)))
-							//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
-							//{
-							//	p[1] = 150;
-							//}
+
 							var span = document.getElementById("id_cur_par");
 							span.innerText = Math.round(p[1] * 10.0) / 10.0;
 						}
@@ -513,12 +485,7 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 				{
 					xhours = p[1];
 				}
-				//if(((timeDate.getHours() == 18)||(timeDate.getHours() == 19)||(timeDate.getHours() == 20)||(timeDate.getHours() == 21)||
-				//(timeDate.getHours() == 22)||(timeDate.getHours() == 23)||(timeDate.getHours() == 0)||(timeDate.getHours() == 1)||
-				//(timeDate.getHours() == 2)||(timeDate.getHours() == 3)||(timeDate.getHours() == 4)||(timeDate.getHours() == 5))&&(parseFloat(v)>0))
 				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
-				//if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0)&&(timeDate.getHours() <= (18+xhours)))
-				//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
 					p[1] = 1;
 				else
 					p[1] = 0;
@@ -527,15 +494,9 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 			if(fieldIndex==0)
 			{
 				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
-				//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
 				{
 					p[1] = (150+parseFloat(v))/2.0;
 				}
-				//else if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(timeDate.getHours() <= (18+xhours)))
-				//if(((timeDate.getHours() >= 18)&&(timeDate.getHours() <= (18+xhours))))
-				//{
-				//	p[1] = 150;
-				//}
 			}
 			
 	 	  	// if a numerical value exists add it
@@ -554,5 +515,64 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
      if (numLoads<maxLoads) {loadChannelHistory(channelIndex,channelNumber,key,fieldList,numLoads,maxLoads);}
 	 }
 	 });
+}
+
+function get_last(){
+              for (var channelIndex=0; channelIndex<channelKeys.length; channelIndex++)  // iterate through each channel
+              {  
+               (function(channelIndex)
+               {
+                // get the data with a webservice call
+                $.getJSON('https://api.thingspeak.com/channels/'+channelKeys[channelIndex].channelNumber+'/feed/last.json?offset=0&amp;location=false;key='+channelKeys[channelIndex].key, function(data) 
+                { 
+
+                  for (var fieldIndex=0; fieldIndex<channelKeys[channelIndex].fieldList.length; fieldIndex++)
+                  {
+                    // if data exists
+                    var fieldStr = "data.field"+channelKeys[channelIndex].fieldList[fieldIndex].field;
+                    var chartSeriesIndex=channelKeys[channelIndex].fieldList[fieldIndex].series;
+					if (data && eval(fieldStr)) 
+                    {
+                      var p = []//new Highcharts.Point();
+                      var v = eval(fieldStr);
+					  
+                      p[0] = getChartDate(data.created_at);
+                      p[1] = parseFloat(v);
+
+						var timeDate = new Date(data.created_at);
+						console.log(timeDate.getHours());
+						
+						if(fieldIndex==1)
+						{
+							var span = document.getElementById("id_cur_hr");
+							span.innerText = Math.round(v * 10.0) / 10.0;
+							if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
+							{
+								xhours = p[1];
+							}
+
+							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
+								p[1] = 1;
+							else
+								p[1] = 0;
+						}	
+			
+						if(fieldIndex==0)
+						{
+							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
+							{
+								p[1] = (150+parseFloat(v))/2.0;
+							}
+
+							var span = document.getElementById("id_cur_par");
+							span.innerText = Math.round(p[1] * 10.0) / 10.0;
+						}
+						  
+                    }
+
+                  }
+                });
+               })(channelIndex);
+			 }
 }
 
