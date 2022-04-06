@@ -44,105 +44,163 @@ function HideAll(){
       //  This is where the chart is generated.
 $(document).ready(function() 
 {
- //Add Channel Load Menu
- var menu=document.getElementById("Channel Select");
+	//Add Channel Load Menu
+	var menu=document.getElementById("Channel Select");
  
- for (var channelIndex=0; channelIndex<channelKeys.length; channelIndex++)  // iterate through each channel
- {
-   window.console && console.log('Name',channelKeys[channelIndex].name);
-   var menuOption =new Option(channelKeys[channelIndex].name,channelIndex);
-   menu.options.add(menuOption,channelIndex);
- }
+	for (var channelIndex=0; channelIndex<channelKeys.length; channelIndex++)  // iterate through each channel
+	{
+		window.console && console.log('Name',channelKeys[channelIndex].name);
+		var menuOption =new Option(channelKeys[channelIndex].name,channelIndex);
+		menu.options.add(menuOption,channelIndex);
+	}
  
- var last_date; // variable for the last date added to the chart
- window.console && console.log('Testing console');
+	var last_date; // variable for the last date added to the chart
+	window.console && console.log('Testing console');
  
- //make series numbers for each field
- var seriesCounter=0
- for (var channelIndex=0; channelIndex<channelKeys.length; channelIndex++)  // iterate through each channel
-  {
-    for (var fieldIndex=0; fieldIndex<channelKeys[channelIndex].fieldList.length; fieldIndex++)  // iterate through each channel
-      {
-        channelKeys[channelIndex].fieldList[fieldIndex].series = seriesCounter; 
-        seriesCounter++;
-      }
-  }
- //make calls to load data from each channel into channelKeys array now
- // draw the chart when all the data arrives, later asyncronously add history
- for (var channelIndex=0; channelIndex<channelKeys.length; channelIndex++)  // iterate through each channel
-  {
-    channelKeys[channelIndex].loaded = false;  
-    loadThingSpeakChannel(channelIndex,channelKeys[channelIndex].channelNumber,channelKeys[channelIndex].key,channelKeys[channelIndex].fieldList);
-  }
- //window.console && console.log('Channel Keys',channelKeys);
+	//make series numbers for each field
+	var seriesCounter=0
+	for (var channelIndex=0; channelIndex<channelKeys.length; channelIndex++)  // iterate through each channel
+	{
+		for (var fieldIndex=0; fieldIndex<channelKeys[channelIndex].fieldList.length; fieldIndex++)  // iterate through each channel
+		  {
+			channelKeys[channelIndex].fieldList[fieldIndex].series = seriesCounter; 
+			seriesCounter++;
+		  }
+	}
+
+	for (var channelIndex=0; channelIndex<channelKeys.length; channelIndex++)  // iterate through each channel
+	{  
+               (function(channelIndex)
+               {
+                // get the data with a webservice call
+                $.getJSON('https://api.thingspeak.com/channels/'+channelKeys[channelIndex].channelNumber+'/feed/last.json?offset=0&amp;location=false;key='+channelKeys[channelIndex].key, function(data) 
+                { 
+
+                  for (var fieldIndex=0; fieldIndex<channelKeys[channelIndex].fieldList.length; fieldIndex++)
+                  {
+                    // if data exists
+                    var fieldStr = "data.field"+channelKeys[channelIndex].fieldList[fieldIndex].field;
+                    var chartSeriesIndex=channelKeys[channelIndex].fieldList[fieldIndex].series;
+					if (data && eval(fieldStr)) 
+                    {
+                      var p = []//new Highcharts.Point();
+                      var v = eval(fieldStr);
+					  
+                      p[0] = getChartDate(data.created_at);
+                      p[1] = parseFloat(v);
+
+						var timeDate = new Date(data.created_at);
+						console.log(timeDate.getHours());
+						
+						if(fieldIndex==1)
+						{
+							var span = document.getElementById("id_cur_hr");
+							span.innerText = Math.round(v * 10.0) / 10.0;
+							if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
+							{
+								xhours = p[1];
+							}
+
+							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
+								p[1] = 1;
+							else
+								p[1] = 0;
+						}	
+			
+						if(fieldIndex==0)
+						{
+							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
+							{
+								p[1] = (150+parseFloat(v))/2.0;
+							}
+
+							var span = document.getElementById("id_cur_par");
+							span.innerText = Math.round(p[1] * 10.0) / 10.0;
+						}
+						  
+                    }
+
+                  }
+                });
+               })(channelIndex);
+	}
+
+	//make calls to load data from each channel into channelKeys array now
+	// draw the chart when all the data arrives, later asyncronously add history
+	for (var channelIndex=0; channelIndex<channelKeys.length; channelIndex++)  // iterate through each channel
+	{
+		channelKeys[channelIndex].loaded = false;  
+		loadThingSpeakChannel(channelIndex,channelKeys[channelIndex].channelNumber,channelKeys[channelIndex].key,channelKeys[channelIndex].fieldList);
+	}
+	//window.console && console.log('Channel Keys',channelKeys);
  
  // load the most recent 2500 points (fast initial load) from a ThingSpeak channel into a data[] array and return the data[] array
  function loadThingSpeakChannel(sentChannelIndex,channelNumber,key,sentFieldList) {
-   var fieldList= sentFieldList;
-   var channelIndex = sentChannelIndex;
-   // get the Channel data with a webservice call
+	var fieldList= sentFieldList;
+	var channelIndex = sentChannelIndex;
+	// get the Channel data with a webservice call
  	$.getJSON('https://api.thingspeak.com/channels/'+channelNumber+'/feed.json?&offset=0&results=2500;key='+key, function(data)
-   {
-	   // if no access
-	   if (data == '-1') {
-       $('#chart-container').append('This channel is not public.  To embed charts, the channel must be public or a read key must be specified.');
-       window.console && console.log('Thingspeak Data Loading Error');
-     }
-	 else {
-	 
-		xhours = 0;
-     for (var fieldIndex=0; fieldIndex<fieldList.length; fieldIndex++)  // iterate through each field
-     {
-       fieldList[fieldIndex].data =[];
-       for (var h=0; h<data.feeds.length; h++)  // iterate through each feed (data point)
-       {
-         var p = []//new Highcharts.Point();
-         var fieldStr = "data.feeds["+h+"].field"+fieldList[fieldIndex].field;
+	{
+		// if no access
+		if (data == '-1') {
+			$('#chart-container').append('This channel is not public.  To embed charts, the channel must be public or a read key must be specified.');
+			window.console && console.log('Thingspeak Data Loading Error');
+		}
+		else 
+		{
 		 
-			var v = eval(fieldStr);
- 		  	p[0] = getChartDate(data.feeds[h].created_at);
-	 	  	p[1] = parseFloat(v);
-			
-			var timeDate = new Date(data.feeds[h].created_at);
-			console.log(p[1]);
-			
-			if(fieldIndex==1)
+			xhours = 0;
+			for (var fieldIndex=0; fieldIndex<fieldList.length; fieldIndex++)  // iterate through each field
 			{
-				if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
+			fieldList[fieldIndex].data =[];
+			for (var h=0; h<data.feeds.length; h++)  // iterate through each feed (data point)
+			{
+				var p = []//new Highcharts.Point();
+				var fieldStr = "data.feeds["+h+"].field"+fieldList[fieldIndex].field;
+			 
+				var v = eval(fieldStr);
+				p[0] = getChartDate(data.feeds[h].created_at);
+				p[1] = parseFloat(v);
+				
+				var timeDate = new Date(data.feeds[h].created_at);
+				console.log(p[1]);
+				
+				if(fieldIndex==1)
 				{
-					xhours = p[1];
+					if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
+					{
+						xhours = p[1];
+					}
+					
+					if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
+						p[1] = 1;
+					else
+						p[1] = 0;
+				}	
+				
+				if(fieldIndex==0)
+				{
+					if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
+					{
+						p[1] = (150+parseFloat(v))/2.0;
+					}
 				}
 				
-				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
-					p[1] = 1;
-				else
-					p[1] = 0;
-			}	
-			
-			if(fieldIndex==0)
-			{
-				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
-				{
-					p[1] = (150+parseFloat(v))/2.0;
-				}
+				if ((!isNaN(parseInt(v)))&&(parseInt(v)<150000)) { fieldList[fieldIndex].data.push(p); }
 			}
-			
-	   		if ((!isNaN(parseInt(v)))&&(parseInt(v)<150000)) { fieldList[fieldIndex].data.push(p); }
-       }
-       fieldList[fieldIndex].name = eval("data.channel.field"+fieldList[fieldIndex].field);
-	   }
-	   
-     window.console && console.log('getJSON field name:',fieldList[0].name);
-     channelKeys[channelIndex].fieldList=fieldList;
-     channelKeys[channelIndex].loaded=true;
-     channelsLoaded++;
-     window.console && console.log('channels Loaded:',channelsLoaded);
-     window.console && console.log('channel index:',channelIndex);
-     if (channelsLoaded==channelKeys.length){createChart();}
-	 }
-	 
-	 })
-   .fail(function() { alert('getJSON request failed! '); });
+			fieldList[fieldIndex].name = eval("data.channel.field"+fieldList[fieldIndex].field);
+			}
+		   
+			window.console && console.log('getJSON field name:',fieldList[0].name);
+			channelKeys[channelIndex].fieldList=fieldList;
+			channelKeys[channelIndex].loaded=true;
+			channelsLoaded++;
+			window.console && console.log('channels Loaded:',channelsLoaded);
+			window.console && console.log('channel index:',channelIndex);
+			if (channelsLoaded==channelKeys.length){createChart();}
+		}
+	})
+	.fail(function() { alert('getJSON request failed! '); });
  }
  
  // create the chart when all data is loaded
@@ -324,16 +382,13 @@ $(document).ready(function()
 		},
     tooltip: {
       valueDecimals: 1,
-      valueSuffix: '(0.01")',
+      valueSuffix: '',
       xDateFormat:'%Y-%m-%d<br/>%H:%M:%S %p' //bug fix
 
+		//formatter: function() {
+		//	return '%Y-%m-%d<br/>%H:%M:%S %p';
+		//}
 
-			// reformat the tooltips so that local times are displayed
-			//formatter: function() {
-      //var d = new Date(this.x + (myOffset*60000));
-      //var n = (this.point.name === undefined) ? '' : '<br/>' + this.point.name;
-      //return this.series.name + ':<b>' + this.y + '</b>' + n + '<br/>' + d.toDateString() + '<br/>' + d.toTimeString().replace(/\(.*\)/, "");
-			//}
     },
 		xAxis: {
 		  type: 'datetime',
@@ -516,63 +571,3 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 	 }
 	 });
 }
-
-function get_last(){
-              for (var channelIndex=0; channelIndex<channelKeys.length; channelIndex++)  // iterate through each channel
-              {  
-               (function(channelIndex)
-               {
-                // get the data with a webservice call
-                $.getJSON('https://api.thingspeak.com/channels/'+channelKeys[channelIndex].channelNumber+'/feed/last.json?offset=0&amp;location=false;key='+channelKeys[channelIndex].key, function(data) 
-                { 
-
-                  for (var fieldIndex=0; fieldIndex<channelKeys[channelIndex].fieldList.length; fieldIndex++)
-                  {
-                    // if data exists
-                    var fieldStr = "data.field"+channelKeys[channelIndex].fieldList[fieldIndex].field;
-                    var chartSeriesIndex=channelKeys[channelIndex].fieldList[fieldIndex].series;
-					if (data && eval(fieldStr)) 
-                    {
-                      var p = []//new Highcharts.Point();
-                      var v = eval(fieldStr);
-					  
-                      p[0] = getChartDate(data.created_at);
-                      p[1] = parseFloat(v);
-
-						var timeDate = new Date(data.created_at);
-						console.log(timeDate.getHours());
-						
-						if(fieldIndex==1)
-						{
-							var span = document.getElementById("id_cur_hr");
-							span.innerText = Math.round(v * 10.0) / 10.0;
-							if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
-							{
-								xhours = p[1];
-							}
-
-							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
-								p[1] = 1;
-							else
-								p[1] = 0;
-						}	
-			
-						if(fieldIndex==0)
-						{
-							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
-							{
-								p[1] = (150+parseFloat(v))/2.0;
-							}
-
-							var span = document.getElementById("id_cur_par");
-							span.innerText = Math.round(p[1] * 10.0) / 10.0;
-						}
-						  
-                    }
-
-                  }
-                });
-               })(channelIndex);
-			 }
-}
-
