@@ -150,6 +150,7 @@ $(document).ready(function()
 		{
 		 
 			xhours = 0;
+			
 			for (var fieldIndex=0; fieldIndex<fieldList.length; fieldIndex++)  // iterate through each field
 			{
 			fieldList[fieldIndex].data =[];
@@ -173,9 +174,15 @@ $(document).ready(function()
 					}
 					
 					if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
+					{
 						p[1] = 1;
+						p[2] = xhours;
+					}
 					else
+					{
 						p[1] = 0;
+						p[2] = 0;
+					}
 				}	
 				
 				if(fieldIndex==0)
@@ -257,9 +264,15 @@ $(document).ready(function()
 							}
 
 							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
+							{
 								p[1] = 1;
+								p[2] = xhours;
+							}
 							else
+							{
 								p[1] = 0;
+								p[2] = 0;
+							}
 						}	
 			
 						if(fieldIndex==0)
@@ -381,13 +394,31 @@ $(document).ready(function()
 			}
 		},
     tooltip: {
-      valueDecimals: 1,
-      valueSuffix: '',
-      xDateFormat:'%Y-%m-%d<br/>%H:%M:%S %p' //bug fix
+      //valueDecimals: 1,
+      //valueSuffix: '',
+      //xDateFormat:'%Y-%m-%d<br/>%H:%M:%S %p' //bug fix
 
-		//formatter: function() {
-		//	return '%Y-%m-%d<br/>%H:%M:%S %p';
-		//}
+		formatter: function() {
+		var chartdata = chartOptions.series[1].data[this.points[1].point.dataGroup.start];
+		//console.log(chartdata[2]);
+		var tooltip = Highcharts.dateFormat('%A %b %e, %Y %H:%M:%S', new Date(this.x));
+      	const  theValue0 = this.points[0].y;
+      	const  theValue1 = this.points[1].y;
+        tooltip += '<br><b>LED Status: </b>';
+		
+		if(theValue1 == 1)
+		{
+			tooltip += '<b>ON</b>';
+			tooltip += '<br><b>Supplemental Hours: ' + chartdata[2] + '</b>';
+		}
+		else
+		{
+			tooltip += '<b>OFF</b>';
+		}
+			
+		tooltip += '<br><b>PAR Value: ' + theValue0 + '</b>';
+		return tooltip;
+		}
 
     },
 		xAxis: {
@@ -541,9 +572,15 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 					xhours = p[1];
 				}
 				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
-					p[1] = 1;
-				else
-					p[1] = 0;
+					{
+						p[1] = 1;
+						p[2] = xhours;
+					}
+					else
+					{
+						p[1] = 0;
+						p[2] = 0;
+					}
 			}	
 
 			if(fieldIndex==0)
