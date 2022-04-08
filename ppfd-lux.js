@@ -1,4 +1,5 @@
-
+var series_i0 = 0;
+var series_i1 = 0;
 var xhours = 0;     
       // Webpage Javascript to chart multiple ThingSpeak channels on two axis with navigator, load historical data, and export cvs data.
       // Public Domain, by turgo.
@@ -313,7 +314,27 @@ $(document).ready(function()
              }
 						}, 15000);
 					}
+				},
+				
+    	render: function(){
+			Highcharts.each(this.series, function(s){
+				if(!s.visible){
+				console.log(s.name + ' is not visible!');
+				if(s.name == 'Supplemental Hours')
+				series_i0 = 1;
+				if(s.name == 'PPFD')
+				series_i1 = 1;
 				}
+				else{
+				if(s.name == 'Supplemental Hours')
+				series_i0 = 0;
+				if(s.name == 'PPFD')
+				series_i1 = 0;
+				}
+			});
+		}
+
+
 			}
 		},
 		function(chart) {
@@ -389,7 +410,7 @@ $(document).ready(function()
 				},
 				animation: true,
 				step: false,
-        turboThrehold:1000,
+				turboThrehold:1000,
 				borderWidth: 0
 			}
 		},
@@ -399,24 +420,58 @@ $(document).ready(function()
       //xDateFormat:'%Y-%m-%d<br/>%H:%M:%S %p' //bug fix
 
 		formatter: function() {
-		var chartdata = chartOptions.series[1].data[this.points[1].point.dataGroup.start];
+		var chartdata = 0;
+		var chartSeries1 = series_i0;
+		var chartSeries2 = series_i1;
 		//console.log(chartdata[2]);
 		var tooltip = Highcharts.dateFormat('%A %b %e, %Y %H:%M:%S', new Date(this.x));
-      	const  theValue0 = this.points[0].y;
-      	const  theValue1 = this.points[1].y;
-        tooltip += '<br><b>LED Status: </b>';
-		
-		if(theValue1 == 1)
+		if(((chartSeries1==0)&&(chartSeries2==0)))
 		{
-			tooltip += '<b>ON</b>';
-			tooltip += '<br><b>Supplemental Hours: ' + chartdata[2] + '</b>';
+			var chartdata = chartOptions.series[1].data[this.points[1].point.dataGroup.start];
+			const  theValue1 = this.points[1].y;
+			tooltip += '<br><b>LED Status: </b>';
+			
+			if(theValue1 == 1)
+			{
+				tooltip += '<b>ON</b>';
+				tooltip += '<br><b>Supplemental Hours: ' + chartdata[2] + '</b>';
+			}
+			else
+			{
+				tooltip += '<b>OFF</b>';
+			}
+			const  theValue0 = this.points[0].y;
+				
+			tooltip += '<br><b>PAR Value: ' + theValue0 + '</b>';
+		}
+		else if(((chartSeries1==0)&&(chartSeries2==1)))
+		{
+			var chartdata = chartOptions.series[1].data[this.points[0].point.dataGroup.start];
+			const  theValue1 = this.points[0].y;
+			tooltip += '<br><b>LED Status: </b>';
+			
+			if(theValue1 == 1)
+			{
+				tooltip += '<b>ON</b>';
+				tooltip += '<br><b>Supplemental Hours: ' + chartdata[2] + '</b>';
+			}
+			else
+			{
+				tooltip += '<b>OFF</b>';
+			}
+			//const  theValue0 = this.points[0].y;
+				
+			//tooltip += '<br><b>PAR Value: ' + theValue0 + '</b>';
 		}
 		else
 		{
-			tooltip += '<b>OFF</b>';
+			var chartdata = chartOptions.series[0].data[this.points[0].point.dataGroup.start];
+			const  theValue0 = this.points[0].y;
+				
+			tooltip += '<br><b>PAR Value: ' + theValue0 + '</b>';
 		}
-			
-		tooltip += '<br><b>PAR Value: ' + theValue0 + '</b>';
+
+		
 		return tooltip;
 		}
 
