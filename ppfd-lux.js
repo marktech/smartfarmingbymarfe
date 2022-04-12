@@ -112,7 +112,8 @@ $(document).ready(function()
 						{
 							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
 							{
-								p[1] = (150+parseFloat(v))/2.0;
+								//p[1] = (150+parseFloat(v))/2.0;
+								p[1] = 150+(parseFloat(v)*0.020);
 							}
 
 							var span = document.getElementById("id_cur_par");
@@ -190,7 +191,8 @@ $(document).ready(function()
 				{
 					if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
 					{
-						p[1] = (150+parseFloat(v))/2.0;
+						//p[1] = (150+parseFloat(v))/2.0;
+						p[1] = 150+(parseFloat(v)*0.020);
 					}
 				}
 				
@@ -280,7 +282,8 @@ $(document).ready(function()
 						{
 							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
 							{
-								p[1] = (150+parseFloat(v))/2.0;
+								//p[1] = (150+parseFloat(v))/2.0;
+								p[1] = 150+(parseFloat(v)*0.020);
 							}
 
 							var span = document.getElementById("id_cur_par");
@@ -299,12 +302,6 @@ $(document).ready(function()
                         dynamicChart.series[chartSeriesIndex].addPoint(p, true, shift);
                       }   
                     }
-                    //window.console && console.log('channelKeys:',channelKeys);
-                    //window.console && console.log('chartSeriesIndex:',chartSeriesIndex);
-                    //window.console && console.log('channel index:',channelIndex);
-                    //window.console && console.log('field index:',fieldIndex);
-                    //window.console && console.log('update series name:',dynamicChart.series[chartSeriesName].name);
-                    //window.console && console.log('channel keys name:',channelKeys[channelIndex].fieldList[fieldIndex].name);
                   }
                   
                   
@@ -336,29 +333,29 @@ $(document).ready(function()
 
 
 			}
-		},
-		function(chart) {
+	},
+	function(chart) {
    
-      labelText = 'Series 1, y: <br/>Series 2, y: ';
+		labelText = 'Series 1, y: <br/>Series 2, y: ';
 
-    chart.renderer.text(labelText, 80, 80)
-      .attr({
-        zIndex: 5
-      })
-      .css({
-        fontSize: '12px'
-      })
-      .add();
+		chart.renderer.text(labelText, 80, 80)
+			.attr({
+				zIndex: 5
+			})
+			.css({
+				fontSize: '12px'
+			})
+			.add();
 
-    chart.renderer.rect(75, 65, 135, 40, 2)
-      .attr({
-        'stroke-width': 2,
-        stroke: 'black',
-        fill: '#CEF74A',
-        zIndex: 4
-      })
-      .add();
-  },
+			chart.renderer.rect(75, 65, 135, 40, 2)
+			.attr({
+				'stroke-width': 2,
+				stroke: 'black',
+				fill: '#CEF74A',
+				zIndex: 4
+			})
+			.add();
+	},
 		rangeSelector: {
 			buttons: [{
 				count: 30,
@@ -642,7 +639,8 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 			{
 				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
 				{
-					p[1] = (150+parseFloat(v))/2.0;
+					//p[1] = (150+parseFloat(v))/2.0;
+					p[1] = 150+(parseFloat(v)*0.020);
 				}
 			}
 			
