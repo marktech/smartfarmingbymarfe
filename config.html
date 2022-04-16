@@ -216,7 +216,7 @@ function save_config() {
 		var strt = $("#strt_id").val();
 		var stop = $("#stop_id").val();
 
-		$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field1='+cf_par+'&field2='+cf_lux+'&field3='+th_par+'&field4='+strt+'&field5='+stop+'&field6='+of_lux+'&field7='+data.feeds[0].field7,function(response){
+		$.get('https://api.thingspeak.com/update?api_key=I8V7IMO1YNZHPI4W&field1='+cf_lux+'&field2='+cf_par+'&field3='+th_par+'&field4='+strt+'&field5='+stop+'&field6='+of_lux+'&field7='+data.feeds[0].field7,function(response){
 		});
 
 	});
