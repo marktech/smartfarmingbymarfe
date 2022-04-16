@@ -20,7 +20,7 @@ channelKeys.push({channelNumber:1614512, name:'PPFD',key:'B30E75CIAH9HH3TJ',
     
 // user's timezone offset
 var myOffset = new Date().getTimezoneOffset();
-
+const x_re_date = new Date('04/17/2022 00:00:00');
 // converts date format from JSON
 function getChartDate(d) {
     // get the data using javascript's date object (year, month, day, hour, minute, second)
@@ -110,10 +110,24 @@ $(document).ready(function()
 			
 						if(fieldIndex==0)
 						{
+
 							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
 							{
-								//p[1] = (150+parseFloat(v))/2.0;
-								p[1] = 150+(parseFloat(v)*0.020);
+								if (timeDate.getTime() < x_re_date.getTime())
+								{
+									var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
+									var re_calc_par = (re_calc_lux*1.9) * 0.026;
+									p[1] = 150+(re_calc_par*0.020)
+								}
+							}
+							else
+							{
+								if (timeDate.getTime() < x_re_date.getTime())
+								{
+									var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
+									var re_calc_par = (re_calc_lux*1.9) * 0.023;
+									p[1] = re_calc_par;
+								}
 							}
 
 							var span = document.getElementById("id_cur_par");
@@ -191,8 +205,22 @@ $(document).ready(function()
 				{
 					if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
 					{
-						//p[1] = (150+parseFloat(v))/2.0;
-						p[1] = 150+(parseFloat(v)*0.020);
+
+						if (timeDate.getTime() < x_re_date.getTime())
+						{
+							var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
+							var re_calc_par = (re_calc_lux*1.9) * 0.026;
+							p[1] = 150+(re_calc_par*0.020)
+						}
+					}
+					else
+					{
+						if (timeDate.getTime() < x_re_date.getTime())
+						{
+							var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
+							var re_calc_par = (re_calc_lux*1.9) * 0.023;
+							p[1] = re_calc_par;
+						}
 					}
 				}
 				
@@ -282,8 +310,21 @@ $(document).ready(function()
 						{
 							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
 							{
-								//p[1] = (150+parseFloat(v))/2.0;
-								p[1] = 150+(parseFloat(v)*0.020);
+								if (timeDate.getTime() < x_re_date.getTime())
+								{
+									var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
+									var re_calc_par = (re_calc_lux*1.9) * 0.023;
+									p[1] = 150+(re_calc_par*0.020)
+								}
+							}
+							else
+							{
+								if (timeDate.getTime() < x_re_date.getTime())
+								{
+									var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
+									var re_calc_par = (re_calc_lux*1.9) * 0.023;
+									p[1] = re_calc_par;
+								}
 							}
 
 							var span = document.getElementById("id_cur_par");
@@ -639,8 +680,22 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 			{
 				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
 				{
-					//p[1] = (150+parseFloat(v))/2.0;
-					p[1] = 150+(parseFloat(v)*0.020);
+
+						if (timeDate.getTime() < x_re_date.getTime())
+						{
+							var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
+							var re_calc_par = (re_calc_lux*1.9) * 0.026;
+							p[1] = 150+(re_calc_par*0.020)
+						}
+				}
+				else
+				{
+						if (timeDate.getTime() < x_re_date.getTime())
+						{
+							var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
+							var re_calc_par = (re_calc_lux*1.9) * 0.023;
+							p[1] = re_calc_par;
+						}
 				}
 			}
 			
