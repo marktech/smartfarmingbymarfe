@@ -249,6 +249,7 @@ $(document).ready(function()
     {
 		  renderTo: 'chart-container',
       zoomType:'y',
+	  alignTicks: false,
 			events: 
       {
         load: function() 
@@ -530,12 +531,16 @@ $(document).ready(function()
             title: {
                 text: 'LED Status'
             },
-            id: 'R'
+            id: 'R',
+			tickAmount: 6,
+			max:1,
+			tickInterval:0.25
     }, {
             title: {
                 text: 'ppfd unit'
             },
             opposite: true,
+			tickAmount: 6,
             id: 'C'
     }],
 		exporting: {
