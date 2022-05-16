@@ -20,7 +20,9 @@ channelKeys.push({channelNumber:1614512, name:'PPFD',key:'B30E75CIAH9HH3TJ',
     
 // user's timezone offset
 var myOffset = new Date().getTimezoneOffset();
-const x_re_date = new Date('04/17/2022 00:00:00');
+
+const x_re_date = new Date('01/01/2022 00:00:00');
+
 // converts date format from JSON
 function getChartDate(d) {
     // get the data using javascript's date object (year, month, day, hour, minute, second)
@@ -103,17 +105,21 @@ $(document).ready(function()
 							}
 
 							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
+							{
 								p[1] = 1;
+							}
 							else
+							{
 								p[1] = 0;
+							}
 						}	
 			
 						if(fieldIndex==0)
 						{
 
-							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
+							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))//&&(timeDate.getHours() <= (18+xhours)))
 							{
-								if (timeDate.getTime() < x_re_date.getTime())
+								if (timeDate.getTime() > x_re_date.getTime())
 								{
 									var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
 									var re_calc_par = (re_calc_lux*1.9) * 0.026;
@@ -122,7 +128,7 @@ $(document).ready(function()
 							}
 							else
 							{
-								if (timeDate.getTime() < x_re_date.getTime())
+								if (timeDate.getTime() > x_re_date.getTime())
 								{
 									var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
 									var re_calc_par = (re_calc_lux*1.9) * 0.023;
@@ -165,7 +171,7 @@ $(document).ready(function()
 		else 
 		{
 		 
-			xhours = 0;
+			//xhours = 0;
 			
 			for (var fieldIndex=0; fieldIndex<fieldList.length; fieldIndex++)  // iterate through each field
 			{
@@ -184,6 +190,10 @@ $(document).ready(function()
 				
 				if(fieldIndex==1)
 				{
+							if(timeDate.getHours() == 20)
+								console.log("Test");
+							if(timeDate.getHours() == 19)
+								console.log("Test");
 					if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
 					{
 						xhours = p[1];
@@ -203,10 +213,15 @@ $(document).ready(function()
 				
 				if(fieldIndex==0)
 				{
-					if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
+							if(timeDate.getHours() == 19)
+								console.log("Test");
+					var xtime = x_re_date.getTime();
+					var ytime = timeDate.getTime();
+					var htime = timeDate.getHours();
+					if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))//&&(timeDate.getHours() <= (18+xhours)))
 					{
 
-						if (timeDate.getTime() < x_re_date.getTime())
+						if (timeDate.getTime() > x_re_date.getTime())
 						{
 							var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
 							var re_calc_par = (re_calc_lux*1.9) * 0.026;
@@ -215,7 +230,7 @@ $(document).ready(function()
 					}
 					else
 					{
-						if (timeDate.getTime() < x_re_date.getTime())
+						if (timeDate.getTime() > x_re_date.getTime())
 						{
 							var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
 							var re_calc_par = (re_calc_lux*1.9) * 0.023;
@@ -261,7 +276,7 @@ $(document).ready(function()
             {
              if (document.getElementById("Update").checked)
              {
-				xhours = 0;
+				//xhours = 0;
               for (var channelIndex=0; channelIndex<channelKeys.length; channelIndex++)  // iterate through each channel
               {  
                (function(channelIndex)
@@ -309,9 +324,9 @@ $(document).ready(function()
 			
 						if(fieldIndex==0)
 						{
-							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
+							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))//&&(timeDate.getHours() <= (18+xhours)))
 							{
-								if (timeDate.getTime() < x_re_date.getTime())
+								if (timeDate.getTime() > x_re_date.getTime())
 								{
 									var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
 									var re_calc_par = (re_calc_lux*1.9) * 0.023;
@@ -320,7 +335,7 @@ $(document).ready(function()
 							}
 							else
 							{
-								if (timeDate.getTime() < x_re_date.getTime())
+								if (timeDate.getTime() > x_re_date.getTime())
 								{
 									var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
 									var re_calc_par = (re_calc_lux*1.9) * 0.023;
@@ -376,7 +391,8 @@ $(document).ready(function()
 
 			}
 	},
-	function(chart) {
+	function(chart) 
+	{
    
 		labelText = 'Series 1, y: <br/>Series 2, y: ';
 
@@ -447,7 +463,7 @@ $(document).ready(function()
 			  marker: {
 				  radius: 2
 				},
-				animation: true,
+				animation: false,
 				step: false,
 				turboThrehold:1000,
 				borderWidth: 0
@@ -649,7 +665,7 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
        window.console && console.log('Thingspeak Data Loading Error');
 		}
 		else{
-			xhours = 0;
+			//xhours = 0;
 
      for (var fieldIndex=0; fieldIndex<fieldList.length; fieldIndex++)  // iterate through each field
      {
@@ -683,10 +699,10 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 
 			if(fieldIndex==0)
 			{
-				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0)&&(timeDate.getHours() <= (18+xhours)))
+				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))//&&(timeDate.getHours() <= (18+xhours)))
 				{
 
-						if (timeDate.getTime() < x_re_date.getTime())
+						if (timeDate.getTime() > x_re_date.getTime())
 						{
 							var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
 							var re_calc_par = (re_calc_lux*1.9) * 0.026;
@@ -695,7 +711,7 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 				}
 				else
 				{
-						if (timeDate.getTime() < x_re_date.getTime())
+						if (timeDate.getTime() > x_re_date.getTime())
 						{
 							var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
 							var re_calc_par = (re_calc_lux*1.9) * 0.023;
