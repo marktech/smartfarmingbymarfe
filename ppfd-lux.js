@@ -1,6 +1,9 @@
 var series_i0 = 0;
 var series_i1 = 0;
 var xhours = 0;     
+var prev_hrs;
+var prev_dte;
+var ave_ppfd = 200;
       // Webpage Javascript to chart multiple ThingSpeak channels on two axis with navigator, load historical data, and export cvs data.
       // Public Domain, by turgo.
       //  The charting library is called HighStock.  It is awesome!  HighSoft, the owners say, 
@@ -99,14 +102,17 @@ $(document).ready(function()
 						{
 							var span = document.getElementById("id_cur_hr");
 							span.innerText = Math.round(v * 10.0) / 10.0;
-							if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
-							{
-								xhours = p[1];
-							}
+							//if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
+							//{
+							//	xhours = p[1];
+							//}
 
-							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
+							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
 							{
-								p[1] = 1;
+								if(parseFloat(v)>0)
+									p[1] = 1;
+								else
+									p[1] = 0;
 							}
 							else
 							{
@@ -117,13 +123,18 @@ $(document).ready(function()
 						if(fieldIndex==0)
 						{
 
-							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))//&&(timeDate.getHours() <= (18+xhours)))
+							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
 							{
+
 								if (timeDate.getTime() > x_re_date.getTime())
 								{
-									var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
-									var re_calc_par = (re_calc_lux*1.9) * 0.026;
-									p[1] = 150+(re_calc_par*0.020)
+									if(parseFloat(v)>0){
+										var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
+										var re_calc_par = (re_calc_lux*1.9) * 0.026;
+										p[1] = 150+(re_calc_par*0.020)
+									}
+									else
+										p[1] = 0;
 								}
 							}
 							else
@@ -131,7 +142,7 @@ $(document).ready(function()
 								if (timeDate.getTime() > x_re_date.getTime())
 								{
 									var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
-									var re_calc_par = (re_calc_lux*2.5) * 0.023;
+									var re_calc_par = (re_calc_lux*1.9) * 0.023;
 									p[1] = re_calc_par;
 								}
 							}
@@ -190,42 +201,56 @@ $(document).ready(function()
 				
 				if(fieldIndex==1)
 				{
-							if(timeDate.getHours() == 20)
-								console.log("Test");
-							if(timeDate.getHours() == 19)
-								console.log("Test");
-					if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
-					{
-						xhours = p[1];
-					}
+					//if(timeDate.getHours() == 20)
+					//	console.log("Test");
+					//if(timeDate.getHours() == 19)
+					//	console.log("Test");
+					//if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
+					//{
+					//	xhours = p[1];
+					//}
 					
-					if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
+					if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
 					{
-						p[1] = 1;
-						p[2] = xhours;
+								if(parseFloat(v)>0)
+									p[1] = 1;
+								else
+									p[1] = 0;
 					}
 					else
 					{
 						p[1] = 0;
-						p[2] = 0;
+						//p[2] = 0;
 					}
 				}	
 				
 				if(fieldIndex==0)
 				{
-							if(timeDate.getHours() == 19)
-								console.log("Test");
-					var xtime = x_re_date.getTime();
-					var ytime = timeDate.getTime();
-					var htime = timeDate.getHours();
-					if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))//&&(timeDate.getHours() <= (18+xhours)))
+					
+					//if((h==0))
+					//{
+					//	xhours = 18;
+					//	prev_hrs = timeDate.getHours();
+					//	prev_dte = timeDate.getDate();
+					//}
+					
+					//if(timeDate.getHours() == 19)
+					//	console.log("Test");
+					//var xtime = x_re_date.getTime();
+					//var ytime = timeDate.getTime();
+					//var htime = timeDate.getHours();
+					if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
 					{
 
 						if (timeDate.getTime() > x_re_date.getTime())
 						{
-							var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
-							var re_calc_par = (re_calc_lux*1.9) * 0.026;
-							p[1] = 150+(re_calc_par*0.020)
+							if(parseFloat(v)>0){
+								var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
+								var re_calc_par = (re_calc_lux*1.9) * 0.026;
+								p[1] = 150+(re_calc_par*0.020)
+							}
+							else
+								p[1] = 0;
 						}
 					}
 					else
@@ -233,7 +258,7 @@ $(document).ready(function()
 						if (timeDate.getTime() > x_re_date.getTime())
 						{
 							var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
-							var re_calc_par = (re_calc_lux*2.5) * 0.023;
+							var re_calc_par = (re_calc_lux*1.9) * 0.023;
 							p[1] = re_calc_par;
 						}
 					}
@@ -305,32 +330,39 @@ $(document).ready(function()
 						{
 							var span = document.getElementById("id_cur_hr");
 							span.innerText = Math.round(v * 10.0) / 10.0;
-							if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
-							{
-								xhours = p[1];
-							}
+							//if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
+							//{
+							//	xhours = p[1];
+							//}
 
-							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
+							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
 							{
-								p[1] = 1;
-								p[2] = xhours;
+								if(parseFloat(v)>0)
+									p[1] = 1;
+								else
+									p[1] = 0;
 							}
 							else
 							{
 								p[1] = 0;
-								p[2] = 0;
+								//p[2] = 0;
 							}
 						}	
 			
 						if(fieldIndex==0)
 						{
-							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))//&&(timeDate.getHours() <= (18+xhours)))
+							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
 							{
+
 								if (timeDate.getTime() > x_re_date.getTime())
 								{
-									var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
-									var re_calc_par = (re_calc_lux*1.9) * 0.023;
-									p[1] = 150+(re_calc_par*0.020)
+									if(parseFloat(v)>0){
+										var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
+										var re_calc_par = (re_calc_lux*1.9) * 0.026;
+										p[1] = 150+(re_calc_par*0.020)
+									}
+									else
+										p[1] = 0;
 								}
 							}
 							else
@@ -338,7 +370,7 @@ $(document).ready(function()
 								if (timeDate.getTime() > x_re_date.getTime())
 								{
 									var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
-									var re_calc_par = (re_calc_lux*2.5) * 0.023;
+									var re_calc_par = (re_calc_lux*1.9) * 0.023;
 									p[1] = re_calc_par;
 								}
 							}
@@ -681,42 +713,48 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 			console.log(timeDate.getHours());
 			if(fieldIndex==1)
 			{
-				if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
-				{
-					xhours = p[1];
-				}
-				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)>0))
+				//if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
+				//{
+				//	xhours = p[1];
+				//}
+					if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
 					{
-						p[1] = 1;
-						p[2] = xhours;
+								if(parseFloat(v) > 0)
+									p[1] = 1;
+								else
+									p[1] = 0;
 					}
 					else
 					{
 						p[1] = 0;
-						p[2] = 0;
+						//p[2] = 0;
 					}
 			}	
 
 			if(fieldIndex==0)
 			{
-				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5))&&(parseFloat(v)!=0))//&&(timeDate.getHours() <= (18+xhours)))
+				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
 				{
 
 						if (timeDate.getTime() > x_re_date.getTime())
 						{
-							var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
-							var re_calc_par = (re_calc_lux*1.9) * 0.026;
-							p[1] = 150+(re_calc_par*0.020)
+							if(parseFloat(v) > 0){
+								var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
+								var re_calc_par = (re_calc_lux*1.9) * 0.026;
+								p[1] = 150+(re_calc_par*0.020)
+							}
+							else
+								p[1] = 0;
 						}
 				}
 				else
 				{
-						if (timeDate.getTime() > x_re_date.getTime())
-						{
+					if (timeDate.getTime() > x_re_date.getTime())
+					{
 							var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
-							var re_calc_par = (re_calc_lux*2.5) * 0.023;
+							var re_calc_par = (re_calc_lux*1.9) * 0.023;
 							p[1] = re_calc_par;
-						}
+					}
 				}
 			}
 			
