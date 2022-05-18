@@ -142,7 +142,7 @@ $(document).ready(function()
 								if (timeDate.getTime() > x_re_date.getTime())
 								{
 									var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
-									var re_calc_par = (re_calc_lux*2.5) * 0.023;
+									var re_calc_par = (re_calc_lux*1.9) * 0.023;
 									p[1] = re_calc_par;
 								}
 							}
@@ -258,7 +258,7 @@ $(document).ready(function()
 						if (timeDate.getTime() > x_re_date.getTime())
 						{
 							var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
-							var re_calc_par = (re_calc_lux*2.5) * 0.023;
+							var re_calc_par = (re_calc_lux*1.9) * 0.023;
 							p[1] = re_calc_par;
 						}
 					}
@@ -370,7 +370,7 @@ $(document).ready(function()
 								if (timeDate.getTime() > x_re_date.getTime())
 								{
 									var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
-									var re_calc_par = (re_calc_lux*2.5) * 0.023;
+									var re_calc_par = (re_calc_lux*1.9) * 0.023;
 									p[1] = re_calc_par;
 								}
 							}
@@ -752,7 +752,7 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 					if (timeDate.getTime() > x_re_date.getTime())
 					{
 							var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
-							var re_calc_par = (re_calc_lux*2.5) * 0.023;
+							var re_calc_par = (re_calc_lux*1.9) * 0.023;
 							p[1] = re_calc_par;
 					}
 				}
