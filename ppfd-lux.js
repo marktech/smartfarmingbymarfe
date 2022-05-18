@@ -658,32 +658,33 @@ $(document).ready(function()
 			}
 		},
     tooltip: {
-      //valueDecimals: 1,
-      //valueSuffix: '',
-      //xDateFormat:'%Y-%m-%d<br/>%H:%M:%S %p' //bug fix
 
 		formatter: function() {
 		var chartdata = 0;
 		var chartSeries1 = series_i0;
 		var chartSeries2 = series_i1;
-		//console.log(chartdata[2]);
 		var tooltip = Highcharts.dateFormat('%A %b %e, %Y %H:%M:%S', new Date(this.x));
 		if(((chartSeries1==0)&&(chartSeries2==0)))
 		{
 			var chartdata = chartOptions.series[1].data[this.points[1].point.dataGroup.start];
 			const  theValue1 = this.points[1].y;
+			var tpdate = new Date(chartdata[0]);
 			tooltip += '<br><b>LED Status: </b>';
-			
+
 			if(theValue1 == 1)
 			{
 				tooltip += '<b>ON</b>';
-				if((this.points[0].y > 140)&&(chartdata[2]==0))
-				{
-					chartdata[2]++;
-					tooltip += '<br><b>Supplemental Hours: ' + chartdata[2] + '</b>';
-				}
-				else
-					tooltip += '<br><b>Supplemental Hours: ' + chartdata[2] + '</b>';
+				if(tpdate.getHours() == 2)
+					chartdata[2] = 1;
+				if(tpdate.getHours() == 3)
+					chartdata[2] = 2;
+				if(tpdate.getHours() == 4)
+					chartdata[2] = 3;
+				if(tpdate.getHours() == 5)
+					chartdata[2] = 4;
+				if(tpdate.getHours() == 6)
+					chartdata[2] = 5;
+				tooltip += '<br><b>Supplemental Hours: ' + chartdata[2] + '</b>';
 			}
 			else
 			{
@@ -698,31 +699,34 @@ $(document).ready(function()
 			var chartdata = chartOptions.series[1].data[this.points[0].point.dataGroup.start];
 			var chartdata0 = chartOptions.series[0].data[this.points[0].point.dataGroup.start];
 			const  theValue1 = this.points[0].y;
+			var tpdate = new Date(chartdata[0]);
 			tooltip += '<br><b>LED Status: </b>';
 			
 			if(theValue1 == 1)
 			{
 				tooltip += '<b>ON</b>';
-				if((chartdata0[1] > 140)&&(chartdata[2]==0))
-				{
-					chartdata[2]++;
-					tooltip += '<br><b>Supplemental Hours: ' + chartdata[2] + '</b>';
-				}
-				else
-					tooltip += '<br><b>Supplemental Hours: ' + chartdata[2] + '</b>';
+				if(tpdate.getHours() == 2)
+					chartdata[2] = 1;
+				if(tpdate.getHours() == 3)
+					chartdata[2] = 2;
+				if(tpdate.getHours() == 4)
+					chartdata[2] = 3;
+				if(tpdate.getHours() == 5)
+					chartdata[2] = 4;
+				if(tpdate.getHours() == 6)
+					chartdata[2] = 5;
+				tooltip += '<br><b>Supplemental Hours: ' + chartdata[2] + '</b>';
 			}
 			else
 			{
 				tooltip += '<b>OFF</b>';
 			}
-			//const  theValue0 = this.points[0].y;
-				
-			//tooltip += '<br><b>PAR Value: ' + theValue0 + '</b>';
 		}
 		else
 		{
 			var chartdata = chartOptions.series[0].data[this.points[0].point.dataGroup.start];
 			const  theValue0 = this.points[0].y;
+			var tpdate = new Date(chartdata[0]);
 				
 			tooltip += '<br><b>PAR Value: ' + theValue0 + '</b>';
 		}
