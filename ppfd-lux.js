@@ -126,10 +126,14 @@ $(document).ready(function()
 							{
 										if(parseFloat(v)>0)
 										{
+											if(xhours == 0)
+												xhours++;
 											p[1] = 1;
-											p[2] = xhours;;
+											p[2] = xhours;
 											if(timeDate.getHours() != prev_hrs)
 											{
+												if(xhours == 0)
+													xhours++;
 												prev_hrs = timeDate.getHours();
 											}
 										}
@@ -276,10 +280,14 @@ $(document).ready(function()
 							{
 										if(parseFloat(v)>0)
 										{
+											if(xhours == 0)
+												xhours++;
 											p[1] = 1;
 											p[2] = xhours;;
 											if(timeDate.getHours() != prev_hrs)
 											{
+												if(xhours == 0)
+													xhours++;
 												prev_hrs = timeDate.getHours();
 											}
 										}
@@ -439,10 +447,14 @@ $(document).ready(function()
 							{
 										if(parseFloat(v)>0)
 										{
+											if(xhours == 0)
+												xhours++;
 											p[1] = 1;
 											p[2] = xhours;;
 											if(timeDate.getHours() != prev_hrs)
 											{
+												if(xhours == 0)
+													xhours++;
 												prev_hrs = timeDate.getHours();
 											}
 										}
@@ -665,7 +677,13 @@ $(document).ready(function()
 			if(theValue1 == 1)
 			{
 				tooltip += '<b>ON</b>';
-				tooltip += '<br><b>Supplemental Hours: ' + chartdata[2] + '</b>';
+				if((this.points[0].y > 150)&&(chartdata[2]==0))
+				{
+					chartdata[2]++;
+					tooltip += '<br><b>Supplemental Hours: ' + chartdata[2] + '</b>';
+				}
+				else
+					tooltip += '<br><b>Supplemental Hours: ' + chartdata[2] + '</b>';
 			}
 			else
 			{
@@ -873,10 +891,14 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 							{
 										if(parseFloat(v)>0)
 										{
+											if(xhours == 0)
+												xhours++;
 											p[1] = 1;
 											p[2] = xhours;;
 											if(timeDate.getHours() != prev_hrs)
 											{
+												if(xhours == 0)
+													xhours++;
 												prev_hrs = timeDate.getHours();
 											}
 										}
