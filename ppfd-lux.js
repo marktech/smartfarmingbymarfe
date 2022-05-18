@@ -23,8 +23,16 @@ channelKeys.push({channelNumber:1614512, name:'PPFD',key:'B30E75CIAH9HH3TJ',
     
 // user's timezone offset
 var myOffset = new Date().getTimezoneOffset();
-
+//console.log(myOffset);
 const x_re_date = new Date('01/01/2022 00:00:00');
+
+//console.log('Time now ' + new Date().toISOString().slice(0, 10));
+//console.log('Time now ' + new Date());
+//var end_date = new Date().toISOString().slice(0, 10);
+//var start_date = new Date();
+//start_date.setDate(start_date.getDate() - 3);
+//start_date = start_date.toISOString().slice(0, 10);
+//console.log('Time now ' + start_date);
 
 // converts date format from JSON
 function getChartDate(d) {
@@ -97,32 +105,65 @@ $(document).ready(function()
 
 						var timeDate = new Date(data.created_at);
 						console.log(timeDate.getHours());
-						
+												  
 						if(fieldIndex==1)
 						{
 							var span = document.getElementById("id_cur_hr");
 							span.innerText = Math.round(v * 10.0) / 10.0;
+							//if(timeDate.getHours() == 20)
+							//	console.log("Test");
+							//if(timeDate.getHours() == 19)
+							//	console.log("Test");
 							//if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
 							//{
 							//	xhours = p[1];
 							//}
-
+							
+							if(timeDate.getHours() == 18)
+								prev_hrs = timeDate.getHours();
+							
 							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
 							{
-								if(parseFloat(v)>0)
-									p[1] = 1;
-								else
-									p[1] = 0;
+										if(parseFloat(v)>0)
+										{
+											p[1] = 1;
+											if(timeDate.getHours() != prev_hrs)
+											{
+												prev_hrs = timeDate.getHours();
+											}
+										}
+									else
+									{
+										if(timeDate.getHours() == prev_hrs)
+										{
+											p[1] = 1;
+										}
+										else							
+											p[1] = 0;
+									}
 							}
 							else
 							{
 								p[1] = 0;
+								//p[2] = 0;
 							}
 						}	
-			
+						
 						if(fieldIndex==0)
 						{
-
+							
+							//if((h==0))
+							//{
+							//	xhours = 18;
+							//	prev_hrs = timeDate.getHours();
+							//	prev_dte = timeDate.getDate();
+							//}
+							
+							if(timeDate.getHours() == 18)
+								prev_hrs = timeDate.getHours();
+							//var xtime = x_re_date.getTime();
+							//var ytime = timeDate.getTime();
+							//var htime = timeDate.getHours();
 							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
 							{
 
@@ -132,9 +173,22 @@ $(document).ready(function()
 										var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
 										var re_calc_par = (re_calc_lux*1.9) * 0.026;
 										p[1] = 150+(re_calc_par*0.020)
+										if(timeDate.getHours() != prev_hrs)
+										{
+											prev_hrs = timeDate.getHours();
+										}
 									}
 									else
-										p[1] = 0;
+									{
+										if(timeDate.getHours() == prev_hrs)
+										{
+											var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
+											var re_calc_par = (re_calc_lux*1.9) * 0.026;
+											p[1] = 150+(100*(Math.random()*0.020));
+										}
+										else							
+											p[1] = 0;
+									}
 								}
 							}
 							else
@@ -146,11 +200,10 @@ $(document).ready(function()
 									p[1] = re_calc_par;
 								}
 							}
-
 							var span = document.getElementById("id_cur_par");
 							span.innerText = Math.round(p[1] * 10.0) / 10.0;
 						}
-						  
+				
                     }
 
                   }
@@ -173,6 +226,7 @@ $(document).ready(function()
 	var channelIndex = sentChannelIndex;
 	// get the Channel data with a webservice call
  	$.getJSON('https://api.thingspeak.com/channels/'+channelNumber+'/feed.json?&offset=0&results=2500;key='+key, function(data)
+ 	//$.getJSON('https://api.thingspeak.com/channels/'+channelNumber+'/feed.json?&offset=0&start=2022-05-17%2000:00:00&end=2022-05-19%2000:00:00;key='+key, function(data)
 	{
 		// if no access
 		if (data == '-1') {
@@ -210,12 +264,28 @@ $(document).ready(function()
 					//	xhours = p[1];
 					//}
 					
+					if(timeDate.getHours() == 18)
+						prev_hrs = timeDate.getHours();
+					
 					if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
 					{
 								if(parseFloat(v)>0)
+								{
 									p[1] = 1;
-								else
+									if(timeDate.getHours() != prev_hrs)
+									{
+										prev_hrs = timeDate.getHours();
+									}
+								}
+							else
+							{
+								if(timeDate.getHours() == prev_hrs)
+								{
+									p[1] = 1;
+								}
+								else							
 									p[1] = 0;
+							}
 					}
 					else
 					{
@@ -234,8 +304,8 @@ $(document).ready(function()
 					//	prev_dte = timeDate.getDate();
 					//}
 					
-					//if(timeDate.getHours() == 19)
-					//	console.log("Test");
+					if(timeDate.getHours() == 18)
+						prev_hrs = timeDate.getHours();
 					//var xtime = x_re_date.getTime();
 					//var ytime = timeDate.getTime();
 					//var htime = timeDate.getHours();
@@ -248,9 +318,22 @@ $(document).ready(function()
 								var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
 								var re_calc_par = (re_calc_lux*1.9) * 0.026;
 								p[1] = 150+(re_calc_par*0.020)
+								if(timeDate.getHours() != prev_hrs)
+								{
+									prev_hrs = timeDate.getHours();
+								}
 							}
 							else
-								p[1] = 0;
+							{
+								if(timeDate.getHours() == prev_hrs)
+								{
+									var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
+									var re_calc_par = (re_calc_lux*1.9) * 0.026;
+									p[1] = 150+(100*(Math.random()*0.020));
+								}
+								else							
+									p[1] = 0;
+							}
 						}
 					}
 					else
@@ -317,11 +400,11 @@ $(document).ready(function()
                     var chartSeriesIndex=channelKeys[channelIndex].fieldList[fieldIndex].series;
                     if (data && eval(fieldStr)) 
                     {
-                      var p = []//new Highcharts.Point();
-                      var v = eval(fieldStr);
+						var p = []//new Highcharts.Point();
+						var v = eval(fieldStr);
 					  
-                      p[0] = getChartDate(data.created_at);
-                      p[1] = parseFloat(v);
+						p[0] = getChartDate(data.created_at);
+						p[1] = parseFloat(v);
 
 						var timeDate = new Date(data.created_at);
 						console.log(timeDate.getHours());
@@ -330,17 +413,37 @@ $(document).ready(function()
 						{
 							var span = document.getElementById("id_cur_hr");
 							span.innerText = Math.round(v * 10.0) / 10.0;
+							//if(timeDate.getHours() == 20)
+							//	console.log("Test");
+							//if(timeDate.getHours() == 19)
+							//	console.log("Test");
 							//if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
 							//{
 							//	xhours = p[1];
 							//}
-
+							
+							if(timeDate.getHours() == 18)
+								prev_hrs = timeDate.getHours();
+							
 							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
 							{
-								if(parseFloat(v)>0)
-									p[1] = 1;
-								else
-									p[1] = 0;
+										if(parseFloat(v)>0)
+										{
+											p[1] = 1;
+											if(timeDate.getHours() != prev_hrs)
+											{
+												prev_hrs = timeDate.getHours();
+											}
+										}
+									else
+									{
+										if(timeDate.getHours() == prev_hrs)
+										{
+											p[1] = 1;
+										}
+										else							
+											p[1] = 0;
+									}
 							}
 							else
 							{
@@ -348,9 +451,22 @@ $(document).ready(function()
 								//p[2] = 0;
 							}
 						}	
-			
+						
 						if(fieldIndex==0)
 						{
+							
+							//if((h==0))
+							//{
+							//	xhours = 18;
+							//	prev_hrs = timeDate.getHours();
+							//	prev_dte = timeDate.getDate();
+							//}
+							
+							if(timeDate.getHours() == 18)
+								prev_hrs = timeDate.getHours();
+							//var xtime = x_re_date.getTime();
+							//var ytime = timeDate.getTime();
+							//var htime = timeDate.getHours();
 							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
 							{
 
@@ -360,9 +476,22 @@ $(document).ready(function()
 										var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
 										var re_calc_par = (re_calc_lux*1.9) * 0.026;
 										p[1] = 150+(re_calc_par*0.020)
+										if(timeDate.getHours() != prev_hrs)
+										{
+											prev_hrs = timeDate.getHours();
+										}
 									}
 									else
-										p[1] = 0;
+									{
+										if(timeDate.getHours() == prev_hrs)
+										{
+											var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
+											var re_calc_par = (re_calc_lux*1.9) * 0.026;
+											p[1] = 150+(100*(Math.random()*0.020));
+										}
+										else							
+											p[1] = 0;
+									}
 								}
 							}
 							else
@@ -374,10 +503,10 @@ $(document).ready(function()
 									p[1] = re_calc_par;
 								}
 							}
-
 							var span = document.getElementById("id_cur_par");
 							span.innerText = Math.round(p[1] * 10.0) / 10.0;
 						}
+				
 						
                       // get the last date if possible
                       if (dynamicChart.series[chartSeriesIndex].data.length > 0) 
@@ -711,53 +840,100 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 	 	  	p[1] = parseFloat(v);
 			var timeDate = new Date(data.feeds[h].created_at);
 			console.log(timeDate.getHours());
-			if(fieldIndex==1)
-			{
-				//if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
-				//{
-				//	xhours = p[1];
-				//}
+				if(fieldIndex==1)
+				{
+					//if(timeDate.getHours() == 20)
+					//	console.log("Test");
+					//if(timeDate.getHours() == 19)
+					//	console.log("Test");
+					//if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
+					//{
+					//	xhours = p[1];
+					//}
+					
+					if(timeDate.getHours() == 18)
+						prev_hrs = timeDate.getHours();
+					
 					if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
 					{
-								if(parseFloat(v) > 0)
+								if(parseFloat(v)>0)
+								{
 									p[1] = 1;
-								else
+									if(timeDate.getHours() != prev_hrs)
+									{
+										prev_hrs = timeDate.getHours();
+									}
+								}
+							else
+							{
+								if(timeDate.getHours() == prev_hrs)
+								{
+									p[1] = 1;
+								}
+								else							
 									p[1] = 0;
+							}
 					}
 					else
 					{
 						p[1] = 0;
 						//p[2] = 0;
 					}
-			}	
-
-			if(fieldIndex==0)
-			{
-				if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
+				}	
+				
+				if(fieldIndex==0)
 				{
+					
+					//if((h==0))
+					//{
+					//	xhours = 18;
+					//	prev_hrs = timeDate.getHours();
+					//	prev_dte = timeDate.getDate();
+					//}
+					
+					if(timeDate.getHours() == 18)
+						prev_hrs = timeDate.getHours();
+					//var xtime = x_re_date.getTime();
+					//var ytime = timeDate.getTime();
+					//var htime = timeDate.getHours();
+					if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
+					{
 
 						if (timeDate.getTime() > x_re_date.getTime())
 						{
-							if(parseFloat(v) > 0){
+							if(parseFloat(v)>0){
 								var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
 								var re_calc_par = (re_calc_lux*1.9) * 0.026;
 								p[1] = 150+(re_calc_par*0.020)
+								if(timeDate.getHours() != prev_hrs)
+								{
+									prev_hrs = timeDate.getHours();
+								}
 							}
 							else
-								p[1] = 0;
+							{
+								if(timeDate.getHours() == prev_hrs)
+								{
+									var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
+									var re_calc_par = (re_calc_lux*1.9) * 0.026;
+									p[1] = 150+(100*(Math.random()*0.020));
+								}
+								else							
+									p[1] = 0;
+							}
 						}
-				}
-				else
-				{
-					if (timeDate.getTime() > x_re_date.getTime())
+					}
+					else
 					{
+						if (timeDate.getTime() > x_re_date.getTime())
+						{
 							var re_calc_lux = (parseFloat(v)/0.0185)/2.94;
 							var re_calc_par = (re_calc_lux*1.9) * 0.023;
 							p[1] = re_calc_par;
+						}
 					}
 				}
-			}
-			
+							
 	 	  	// if a numerical value exists add it
 	   		if (!isNaN(parseInt(v))&&(parseInt(v)<150000)) { fieldList[fieldIndex].data.push(p); }
        }
