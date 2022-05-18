@@ -114,10 +114,10 @@ $(document).ready(function()
 							//	console.log("Test");
 							//if(timeDate.getHours() == 19)
 							//	console.log("Test");
-							//if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
-							//{
-							//	xhours = p[1];
-							//}
+							if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
+							{
+								xhours = p[1];
+							}
 							
 							if(timeDate.getHours() == 18)
 								prev_hrs = timeDate.getHours();
@@ -127,6 +127,7 @@ $(document).ready(function()
 										if(parseFloat(v)>0)
 										{
 											p[1] = 1;
+											p[2] = xhours;;
 											if(timeDate.getHours() != prev_hrs)
 											{
 												prev_hrs = timeDate.getHours();
@@ -137,15 +138,19 @@ $(document).ready(function()
 										if(timeDate.getHours() == prev_hrs)
 										{
 											p[1] = 1;
+											p[2] = xhours;;
 										}
-										else							
+										else
+										{											
 											p[1] = 0;
+											p[2] = 0;
+										}
 									}
 							}
 							else
 							{
 								p[1] = 0;
-								//p[2] = 0;
+								p[2] = 0;
 							}
 						}	
 						
@@ -259,39 +264,44 @@ $(document).ready(function()
 					//	console.log("Test");
 					//if(timeDate.getHours() == 19)
 					//	console.log("Test");
-					//if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
-					//{
-					//	xhours = p[1];
-					//}
+					if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
+					{
+						xhours = p[1];
+					}
 					
 					if(timeDate.getHours() == 18)
 						prev_hrs = timeDate.getHours();
 					
-					if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
-					{
-								if(parseFloat(v)>0)
-								{
-									p[1] = 1;
-									if(timeDate.getHours() != prev_hrs)
+							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
+							{
+										if(parseFloat(v)>0)
+										{
+											p[1] = 1;
+											p[2] = xhours;;
+											if(timeDate.getHours() != prev_hrs)
+											{
+												prev_hrs = timeDate.getHours();
+											}
+										}
+									else
 									{
-										prev_hrs = timeDate.getHours();
+										if(timeDate.getHours() == prev_hrs)
+										{
+											p[1] = 1;
+											p[2] = xhours;;
+										}
+										else
+										{											
+											p[1] = 0;
+											p[2] = 0;
+										}
 									}
-								}
+							}
 							else
 							{
-								if(timeDate.getHours() == prev_hrs)
-								{
-									p[1] = 1;
-								}
-								else							
-									p[1] = 0;
+								p[1] = 0;
+								p[2] = 0;
 							}
-					}
-					else
-					{
-						p[1] = 0;
-						//p[2] = 0;
-					}
 				}	
 				
 				if(fieldIndex==0)
@@ -417,10 +427,10 @@ $(document).ready(function()
 							//	console.log("Test");
 							//if(timeDate.getHours() == 19)
 							//	console.log("Test");
-							//if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
-							//{
-							//	xhours = p[1];
-							//}
+							if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
+							{
+								xhours = p[1];
+							}
 							
 							if(timeDate.getHours() == 18)
 								prev_hrs = timeDate.getHours();
@@ -430,6 +440,7 @@ $(document).ready(function()
 										if(parseFloat(v)>0)
 										{
 											p[1] = 1;
+											p[2] = xhours;;
 											if(timeDate.getHours() != prev_hrs)
 											{
 												prev_hrs = timeDate.getHours();
@@ -440,15 +451,19 @@ $(document).ready(function()
 										if(timeDate.getHours() == prev_hrs)
 										{
 											p[1] = 1;
+											p[2] = xhours;;
 										}
-										else							
+										else
+										{											
 											p[1] = 0;
+											p[2] = 0;
+										}
 									}
 							}
 							else
 							{
 								p[1] = 0;
-								//p[2] = 0;
+								p[2] = 0;
 							}
 						}	
 						
@@ -846,39 +861,44 @@ function loadChannelHistory(sentChannelIndex,channelNumber,key,sentFieldList,sen
 					//	console.log("Test");
 					//if(timeDate.getHours() == 19)
 					//	console.log("Test");
-					//if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
-					//{
-					//	xhours = p[1];
-					//}
+					if((timeDate.getHours() == 18)&&(timeDate.getMinutes() < 2))
+					{
+						xhours = p[1];
+					}
 					
 					if(timeDate.getHours() == 18)
 						prev_hrs = timeDate.getHours();
 					
-					if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
-					{
-								if(parseFloat(v)>0)
-								{
-									p[1] = 1;
-									if(timeDate.getHours() != prev_hrs)
+							if(((timeDate.getHours() >= 18)||(timeDate.getHours() <= 5)))
+							{
+										if(parseFloat(v)>0)
+										{
+											p[1] = 1;
+											p[2] = xhours;;
+											if(timeDate.getHours() != prev_hrs)
+											{
+												prev_hrs = timeDate.getHours();
+											}
+										}
+									else
 									{
-										prev_hrs = timeDate.getHours();
+										if(timeDate.getHours() == prev_hrs)
+										{
+											p[1] = 1;
+											p[2] = xhours;;
+										}
+										else
+										{											
+											p[1] = 0;
+											p[2] = 0;
+										}
 									}
-								}
+							}
 							else
 							{
-								if(timeDate.getHours() == prev_hrs)
-								{
-									p[1] = 1;
-								}
-								else							
-									p[1] = 0;
+								p[1] = 0;
+								p[2] = 0;
 							}
-					}
-					else
-					{
-						p[1] = 0;
-						//p[2] = 0;
-					}
 				}	
 				
 				if(fieldIndex==0)
