@@ -677,7 +677,7 @@ $(document).ready(function()
 			if(theValue1 == 1)
 			{
 				tooltip += '<b>ON</b>';
-				if((this.points[0].y > 150)&&(chartdata[2]==0))
+				if((this.points[0].y > 140)&&(chartdata[2]==0))
 				{
 					chartdata[2]++;
 					tooltip += '<br><b>Supplemental Hours: ' + chartdata[2] + '</b>';
@@ -696,13 +696,20 @@ $(document).ready(function()
 		else if(((chartSeries1==0)&&(chartSeries2==1)))
 		{
 			var chartdata = chartOptions.series[1].data[this.points[0].point.dataGroup.start];
+			var chartdata0 = chartOptions.series[0].data[this.points[0].point.dataGroup.start];
 			const  theValue1 = this.points[0].y;
 			tooltip += '<br><b>LED Status: </b>';
 			
 			if(theValue1 == 1)
 			{
 				tooltip += '<b>ON</b>';
-				tooltip += '<br><b>Supplemental Hours: ' + chartdata[2] + '</b>';
+				if((chartdata0[1] > 140)&&(chartdata[2]==0))
+				{
+					chartdata[2]++;
+					tooltip += '<br><b>Supplemental Hours: ' + chartdata[2] + '</b>';
+				}
+				else
+					tooltip += '<br><b>Supplemental Hours: ' + chartdata[2] + '</b>';
 			}
 			else
 			{
